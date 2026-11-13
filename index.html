@@ -1,0 +1,791 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#05070d;color:#eef2f9}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="KickHeadz"><meta name="theme-color" content="#05070d"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/icon-180.png"></head><body>
+<title>KickHeadz</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+/* Layout: Midnight Chrome base (night city, chrome, electric blue) mixed with Neon Drip (drip headings, purple/pink neon, glow cursor, swipe rail, circle reveals). Was: night-city streetwear. Full-bleed photo bands, chrome block type, electric-blue glow, brush-script signature. One dark look, by choice. */
+:root{
+  --ink:#05070d; --panel:#0b111e; --line:#1b2740; --chrome:#eef2f9; --muted:#8e9ab3;
+  --blue:#2f6bff; --glow:#63a4ff; --purple:#1d4ed8; --pink:#e5262d; --red:#e5262d; --tile-a:#f4f6fa; --tile-b:#c9d3e3;
+  --display:"Anton","Impact","Arial Narrow",sans-serif;
+  --label:"Barlow Condensed","Arial Narrow",sans-serif;
+  --body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --script:"Kaushan Script","Brush Script MT",cursive;
+  --drip:"Rubik Wet Paint","Anton",sans-serif; --marker:"Permanent Marker","Comic Sans MS",cursive;
+  --ease:cubic-bezier(.2,.75,.15,1);
+  --max:1240px; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--ink);background-image:radial-gradient(60vw 40vw at 0% 0%,rgba(47,107,255,.16),transparent 60%),radial-gradient(50vw 40vw at 100% 40%,rgba(29,78,216,.14),transparent 60%);background-attachment:fixed;color:var(--chrome);font-family:var(--body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--ink)}
+a{color:inherit}
+img{max-width:100%;display:block}
+.gut{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:var(--max);margin:0 auto}
+:focus-visible{outline:2px solid var(--glow);outline-offset:3px}
+.skip{position:absolute;left:-999px}.skip:focus{left:16px;top:16px;z-index:99;background:var(--blue);color:#fff;padding:8px 12px}
+
+/* chrome text */
+.chrome{background:linear-gradient(180deg,#ffffff 0%,#dfe6f2 38%,#7f8ca6 52%,#f3f6fb 64%,#aab6cc 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 2px 0 rgba(0,0,0,.6)) drop-shadow(0 0 18px rgba(47,107,255,.35))}
+.script{font-family:var(--script);font-weight:400;letter-spacing:0;text-transform:none}
+.eyebrow{font-family:var(--label);font-weight:600;text-transform:uppercase;letter-spacing:.22em;font-size:13px;color:var(--glow)}
+.eyebrow::before{content:"";display:inline-block;width:8px;height:8px;background:var(--red);border-radius:50%;margin-right:10px;vertical-align:1px;box-shadow:0 0 10px var(--red)}
+
+/* intro splash */
+.intro{position:fixed;inset:0;z-index:80;display:grid;place-items:center;background:var(--ink);pointer-events:none;animation:introOut .7s 1.3s var(--ease) forwards}
+.intro img{width:min(78vw,620px);animation:introLogo 1.5s var(--ease) both;filter:drop-shadow(0 0 40px rgba(47,107,255,.55))}
+.intro::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--purple),var(--blue),var(--glow),var(--blue),var(--purple));transform:scaleY(0);transform-origin:bottom;animation:introWipe .9s 1.05s var(--ease) both}
+@keyframes introLogo{0%{opacity:0;transform:scale(1.35);filter:blur(12px)}55%{opacity:1;transform:scale(1);filter:blur(0) drop-shadow(0 0 40px rgba(47,107,255,.55))}100%{transform:scale(.96)}}
+@keyframes introWipe{0%{transform:scaleY(0);transform-origin:bottom}50%{transform:scaleY(1);transform-origin:bottom}51%{transform-origin:top}100%{transform:scaleY(0);transform-origin:top}}
+@keyframes introOut{to{opacity:0;visibility:hidden}}
+
+/* header */
+header.site{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;transition:background .4s,backdrop-filter .4s,border-color .4s;border-bottom:1px solid transparent}
+header.site.solid{background:rgba(5,7,13,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:var(--line)}
+.bar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;padding-block:14px}
+.bar nav{display:flex;gap:26px}
+.bar nav a,.icons a{font-family:var(--label);font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:14px;text-decoration:none;position:relative}
+.bar nav a::after{content:"";position:absolute;left:0;right:0;bottom:-4px;height:2px;background:var(--blue);box-shadow:0 0 10px var(--glow);transform:scaleX(0);transition:transform .35s var(--ease)}
+.bar nav a:hover::after,.bar nav a[aria-current]::after{transform:scaleX(1)}
+.brand{font-family:var(--script);font-size:30px;text-decoration:none;line-height:1;white-space:nowrap}
+.icons{display:flex;justify-content:flex-end;gap:20px}
+.menu-btn{display:none;background:none;border:0;color:var(--chrome);font-size:24px;cursor:pointer;padding:0}
+@media(max-width:860px){
+  .bar{grid-template-columns:auto 1fr auto}.brand{text-align:center;font-size:26px}
+  .bar nav{display:none}.icons a:not(.cart){display:none}.menu-btn{display:block}
+  .bar nav.open{display:flex;flex-direction:column;gap:18px;position:absolute;top:100%;left:0;right:0;background:rgba(5,7,13,.96);padding:22px max(16px,env(safe-area-inset-left,0px));border-bottom:1px solid var(--line)}
+  .bar nav.open a{font-size:22px}
+}
+
+/* ticker */
+.ticker{display:block;overflow:hidden;white-space:nowrap;text-decoration:none;background:var(--blue);color:#fff;transform:skewY(-2deg);margin-block:-1px;box-shadow:0 0 40px rgba(47,107,255,.45)}
+.ticker.alt{background:var(--chrome);color:var(--ink);transform:skewY(2deg);box-shadow:none}
+.ticker .track{display:inline-flex;align-items:center;gap:36px;padding-block:14px;animation:tick 30s linear infinite}
+.ticker.alt .track{animation-direction:reverse}
+.ticker span{font-family:var(--display);font-size:24px;letter-spacing:.04em;text-transform:uppercase;transform:skewY(2deg)}
+.ticker.alt span{transform:skewY(-2deg)}
+.ticker .star{color:var(--ink);font-size:18px}.ticker.alt .star{color:var(--blue)}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+/* hero */
+.hero{position:relative;display:block;overflow:hidden;isolation:isolate;margin-top:-64px;padding-left:0!important;padding-right:0!important}
+.hero .bg{position:relative;overflow:hidden}
+.hero .bg img{width:100%;height:auto;max-height:82vh;object-fit:cover;animation:kb 18s var(--ease) both}
+@keyframes kb{from{transform:scale(1.18)}to{transform:scale(1.02)}}
+.hero .bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,7,13,.25) 0%,rgba(5,7,13,.15) 40%,rgba(5,7,13,.92) 88%,var(--ink) 100%)}
+.hero .copy{padding-block:8px 72px;display:grid;gap:18px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));margin-top:-40px;position:relative}
+.hero h1{font-family:var(--display);font-weight:400;font-size:clamp(46px,9vw,118px);line-height:.92;text-transform:uppercase;margin:0;text-wrap:balance}
+.hero h1 .w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.06em}
+.hero h1 .w>span,.page-head h1 .w>span{display:inline-block;animation:wordUp 1s var(--ease) both;background:linear-gradient(180deg,#ffffff 0%,#dfe6f2 38%,#7f8ca6 52%,#f3f6fb 64%,#aab6cc 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.page-head h1 .w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.06em}
+@keyframes wordUp{from{transform:translateY(105%) rotate(4deg)}}
+.hero .sig{font-size:clamp(28px,4vw,46px);color:var(--glow);text-shadow:0 0 24px rgba(99,164,255,.6);animation:fadeUp 1s 2.4s var(--ease) both}
+.hero .row{display:flex;flex-wrap:wrap;gap:14px;animation:fadeUp 1s 2.6s var(--ease) both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}}
+
+/* buttons */
+.btn{--b:linear-gradient(100deg,var(--blue),var(--purple));--mx:0px;--my:0px;translate:var(--mx) var(--my);display:inline-flex;align-items:center;justify-content:center;gap:10px;position:relative;overflow:hidden;background:var(--b);color:#fff;text-decoration:none;font-family:var(--display);font-size:20px;letter-spacing:.06em;text-transform:uppercase;padding:14px 30px;border:0;border-radius:2px;cursor:pointer;clip-path:polygon(10px 0,100% 0,calc(100% - 10px) 100%,0 100%);transition:transform .25s var(--ease),box-shadow .3s;box-shadow:0 0 0 rgba(47,107,255,0);transition:transform .25s var(--ease),box-shadow .3s,translate .25s var(--ease)}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 40px rgba(29,78,216,.6),0 0 24px rgba(47,107,255,.5)}
+.btn:active{transform:scale(.97)}
+.btn::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.55) 50%,transparent 70%);transform:translateX(-130%);transition:transform .8s var(--ease)}
+.btn:hover::after{transform:translateX(130%)}
+.btn.ghost{background:transparent;box-shadow:inset 0 0 0 2px var(--chrome)}
+.btn.ghost:hover{background:var(--chrome);color:var(--ink)}
+.btn.off{--b:linear-gradient(#2a3550,#2a3550);pointer-events:none;color:var(--muted)}
+
+/* manifesto */
+.manifesto{display:grid;grid-template-columns:1.05fr 1fr;gap:56px;align-items:center;padding-block:110px 90px}
+.manifesto .logo{position:relative}
+.manifesto .logo img{width:100%;border-radius:4px;animation:float 6s ease-in-out infinite;filter:drop-shadow(0 30px 60px rgba(47,107,255,.35))}
+@keyframes float{50%{transform:translateY(-12px) rotate(-.6deg)}}
+.manifesto h2{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(40px,5.5vw,72px);line-height:.95;margin:10px 0 22px}
+.manifesto p{margin:0 0 14px;color:#c7cfdf;max-width:52ch;font-size:17px}
+.manifesto .lines{display:grid;gap:6px;margin:22px 0 30px}
+.manifesto .lines b{font-family:var(--label);font-weight:700;text-transform:uppercase;letter-spacing:.12em;font-size:18px}
+.manifesto .lines b:nth-child(2){color:var(--glow)}
+.manifesto .lines b:nth-child(3){color:var(--red)}
+.pin{font-family:var(--label);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-size:14px}
+@media(max-width:860px){.manifesto{grid-template-columns:1fr;gap:36px;padding-block:72px 56px}}
+
+/* product grid */
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin:0 0 28px}
+.section-head h2{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(36px,5vw,64px);line-height:1;margin:0}
+.section-head a{font-family:var(--label);font-weight:600;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;color:var(--glow)}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px 18px;padding-bottom:90px}
+@media(max-width:1000px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:700px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 12px}}
+.card{display:block;text-decoration:none;perspective:900px}
+.card .tile{position:relative;aspect-ratio:1/1;max-width:100%;border-radius:6px;overflow:hidden;background:radial-gradient(120% 90% at 50% 30%,var(--tile-a) 0%,var(--tile-b) 100%);transform-style:preserve-3d;transition:transform .5s var(--ease),box-shadow .5s;will-change:transform}
+.card .tile img{width:100%;height:100%;object-fit:contain;padding:6%;mix-blend-mode:multiply;transition:transform .7s var(--ease),opacity .4s}
+.card .tile img.alt{position:absolute;inset:0;opacity:0}
+.card:hover .tile{box-shadow:0 24px 50px -20px rgba(47,107,255,.75),0 0 0 2px var(--blue)}
+.card:hover .tile img{transform:scale(1.08)}
+.card:hover .tile img.alt{opacity:1}
+.card:hover .tile img.alt~img{opacity:0}
+.card .shine{position:absolute;inset:0;background:radial-gradient(400px circle at var(--mx,50%) var(--my,0%),rgba(255,255,255,.45),transparent 40%);opacity:0;transition:opacity .4s;pointer-events:none}
+.card:hover .shine{opacity:1}
+.badge{position:absolute;left:10px;top:10px;background:var(--red);color:#fff;font-family:var(--label);font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:12px;padding:3px 10px;transform:skewX(-10deg)}
+.card h3{font-family:var(--label);font-weight:600;font-size:18px;letter-spacing:.04em;text-transform:uppercase;line-height:1.2;margin:14px 0 4px;transition:color .3s}
+.card:hover h3{color:var(--glow)}
+.price{font-family:var(--label);font-size:16px;color:var(--muted);letter-spacing:.06em;font-variant-numeric:tabular-nums}
+
+/* poster band */
+.posters{display:grid;grid-template-columns:1fr 1fr;gap:18px;padding-block:20px 90px}
+.posters figure{margin:0;position:relative;overflow:hidden;border-radius:6px;background:var(--panel)}
+.posters img{width:100%;height:100%;object-fit:cover;aspect-ratio:4/5;transition:transform 1.2s var(--ease)}
+.posters figure:hover img{transform:scale(1.05)}
+.posters figcaption{position:absolute;left:0;right:0;bottom:0;padding:60px 22px 20px;background:linear-gradient(transparent,rgba(5,7,13,.92));font-family:var(--display);font-size:clamp(24px,3vw,36px);text-transform:uppercase;line-height:1}
+@media(max-width:700px){.posters{grid-template-columns:1fr}}
+.tagline{font-family:var(--script);font-size:clamp(26px,3.6vw,44px);text-align:center;max-width:24ch;margin:0 auto;padding-block:80px;line-height:1.25;color:var(--chrome);text-wrap:balance}
+
+/* pages */
+.page-head{padding-block:120px 36px;margin-top:-64px;background:radial-gradient(80% 120% at 50% 0%,rgba(47,107,255,.28),transparent 70%)}
+.page-head h1{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(54px,10vw,130px);line-height:.9;margin:8px 0 0}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:28px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:transparent;border:1px solid var(--line);color:var(--chrome);font-family:var(--label);font-weight:600;letter-spacing:.12em;text-transform:uppercase;font-size:14px;padding:8px 16px;border-radius:40px;cursor:pointer;transition:all .3s var(--ease)}
+.chip[aria-pressed=true]{background:var(--blue);border-color:var(--blue);box-shadow:0 0 20px rgba(47,107,255,.6)}
+select{background:var(--panel);color:var(--chrome);border:1px solid var(--line);font-family:var(--label);font-size:15px;letter-spacing:.06em;padding:8px 12px;border-radius:4px}
+.count{font-family:var(--label);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-size:13px}
+
+/* product page */
+.pdp{display:grid;grid-template-columns:1.15fr 1fr;gap:56px;padding-block:96px 80px;margin-top:-64px}
+@media(max-width:860px){.pdp{grid-template-columns:1fr;gap:28px;padding-top:84px}}
+.stage{position:relative;aspect-ratio:1/1;max-width:100%;border-radius:8px;overflow:hidden;background:radial-gradient(120% 90% at 50% 30%,var(--tile-a),var(--tile-b))}
+.stage img{width:100%;height:100%;object-fit:contain;padding:5%;mix-blend-mode:multiply}
+.stage img.swap{animation:swapIn .55s var(--ease)}
+@keyframes swapIn{from{opacity:0;transform:scale(1.06) translateX(14px)}}
+.thumbs{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+.thumbs button{width:76px;height:76px;padding:0;border:2px solid transparent;border-radius:6px;overflow:hidden;background:var(--tile-a);cursor:pointer;transition:border-color .3s,transform .3s var(--ease)}
+.thumbs button:hover{transform:translateY(-3px)}
+.thumbs button[aria-pressed=true]{border-color:var(--blue);box-shadow:0 0 16px rgba(47,107,255,.6)}
+.thumbs img{width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply}
+.info{min-width:0}
+.info h1{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(36px,4.6vw,60px);line-height:.98;margin:10px 0 14px;text-wrap:balance}
+.info .price{font-size:22px;color:var(--chrome);margin-bottom:26px}
+.info > *{animation:fadeUp .7s var(--ease) both}
+.info > *:nth-child(2){animation-delay:.06s}.info > *:nth-child(3){animation-delay:.12s}.info > *:nth-child(4){animation-delay:.18s}.info > *:nth-child(5){animation-delay:.24s}.info > *:nth-child(6){animation-delay:.3s}.info > *:nth-child(7){animation-delay:.36s}
+fieldset{border:0;padding:0;margin:0 0 22px}
+legend{font-family:var(--label);font-weight:600;letter-spacing:.16em;text-transform:uppercase;font-size:13px;color:var(--muted);margin-bottom:10px}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pills input{position:absolute;opacity:0;pointer-events:none}
+.pills label{border:1px solid var(--line);padding:9px 18px;font-family:var(--label);font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-size:15px;cursor:pointer;transition:all .25s var(--ease);clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%);background:var(--panel)}
+.pills label:hover{border-color:var(--glow)}
+.pills input:checked+label{background:var(--blue);border-color:var(--blue);box-shadow:0 0 18px rgba(47,107,255,.55)}
+.pills input:focus-visible+label{outline:2px solid var(--glow);outline-offset:2px}
+.qty{display:inline-flex;border:1px solid var(--line);background:var(--panel);margin-bottom:22px}
+.qty button{background:none;border:0;color:var(--chrome);width:44px;font-size:20px;cursor:pointer}
+.qty input{width:48px;text-align:center;border:0;background:transparent;color:var(--chrome);font:600 17px var(--label)}
+.info .btn{width:100%;font-size:24px;padding-block:16px}
+.note{font-family:var(--label);letter-spacing:.06em;color:var(--muted);font-size:15px}
+
+/* contact */
+form.contact{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:720px;padding-bottom:90px}
+form.contact .full-row{grid-column:1/-1}
+form.contact label{display:block;font-family:var(--label);font-weight:600;letter-spacing:.14em;text-transform:uppercase;font-size:13px;color:var(--muted);margin-bottom:6px}
+form.contact input,form.contact textarea{width:100%;background:var(--panel);border:1px solid var(--line);color:var(--chrome);padding:14px;font:inherit;border-radius:4px;transition:border-color .3s,box-shadow .3s}
+form.contact input:focus,form.contact textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(47,107,255,.3)}
+@media(max-width:600px){form.contact{grid-template-columns:1fr}}
+.thanks{font-family:var(--display);font-size:40px;text-transform:uppercase}
+
+/* footer */
+footer.site{border-top:1px solid var(--line);background:linear-gradient(180deg,var(--ink),#03050a)}
+.foot{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:32px;padding-block:64px 36px}
+.foot .big{font-family:var(--script);font-size:clamp(40px,6vw,72px);line-height:1}
+.foot h4{font-family:var(--label);font-weight:700;letter-spacing:.18em;text-transform:uppercase;font-size:13px;color:var(--muted);margin:0 0 12px}
+.foot ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.foot a{text-decoration:none}.foot a:hover{color:var(--glow)}
+.subscribe{display:flex;margin-top:18px;max-width:380px}
+.subscribe input{flex:1;min-width:0;background:var(--panel);border:1px solid var(--line);color:var(--chrome);padding:12px;font:inherit}
+.copy{font-family:var(--label);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-size:12px;padding-block:0 32px}
+@media(max-width:760px){.foot{grid-template-columns:1fr}}
+
+
+/* ---- Neon Drip layer ---- */
+.section-head h2,.manifesto h2,.page-head h1{font-family:var(--drip);text-transform:none;letter-spacing:0}
+.drip-glow{filter:drop-shadow(0 2px 0 rgba(0,0,0,.6)) drop-shadow(0 0 16px rgba(29,78,216,.55)) drop-shadow(0 0 40px rgba(229,38,45,.25))}
+.hero .sig{font-family:var(--marker);color:var(--glow);text-shadow:0 0 20px rgba(47,107,255,.7);transform:rotate(-2deg)}
+.tagline{font-family:var(--marker)}
+.flicker{animation:flicker 5s infinite}
+@keyframes flicker{0%,18%,22%,25%,53%,57%,100%{opacity:1}20%,24%,55%{opacity:.45}}
+.cursor-glow{position:fixed;left:0;top:0;width:460px;height:460px;margin:-230px 0 0 -230px;border-radius:50%;pointer-events:none;z-index:2;background:radial-gradient(circle,rgba(29,78,216,.2),rgba(47,107,255,.1) 40%,transparent 65%);transform:translate(-999px,-999px);mix-blend-mode:screen;transition:transform .12s linear}
+.progress{position:fixed;left:0;top:0;height:3px;width:100%;z-index:65;transform-origin:left;transform:scaleX(var(--p,0));background:linear-gradient(90deg,var(--blue),var(--glow) 85%,var(--red));box-shadow:0 0 12px var(--purple)}
+.sparks{position:absolute;inset:0;z-index:1;pointer-events:none;width:100%;height:100%}
+.drips{height:64px;background:linear-gradient(90deg,var(--purple),var(--blue),var(--glow),var(--blue),var(--purple));-webkit-mask:radial-gradient(14px 34px at 30px 0,#000 98%,transparent) 0 0/60px 100% repeat-x;mask:radial-gradient(14px 34px at 30px 0,#000 98%,transparent) 0 0/60px 100% repeat-x;animation:ooze 5s ease-in-out infinite alternate;margin-top:-1px}
+@keyframes ooze{to{-webkit-mask-size:78px 135%;mask-size:78px 135%}}
+.marq{overflow:hidden;white-space:nowrap;padding-block:30px;border-block:1px solid var(--line)}
+.marq .track{display:inline-flex;gap:50px;animation:tick 36s linear infinite}
+.marq span{font-family:var(--drip);font-size:clamp(44px,7vw,90px);line-height:1;color:transparent;-webkit-text-stroke:1.5px var(--glow)}
+.marq span:nth-child(3n+1){color:#fff;-webkit-text-stroke:0;text-shadow:0 0 22px var(--purple),0 0 50px var(--blue)}
+.marq span:nth-child(3n+2){-webkit-text-stroke-color:var(--blue)}
+.marq span:nth-child(6n+3){-webkit-text-stroke-color:var(--red)}
+.rail{display:grid;grid-auto-flow:column;grid-auto-columns:min(70vw,290px);gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:22px;margin-bottom:70px;scrollbar-width:thin;scrollbar-color:var(--purple) transparent}
+.rail .card{scroll-snap-align:start}
+.card .tile{border:1px solid transparent;background:radial-gradient(120% 90% at 50% 30%,var(--tile-a) 0%,var(--tile-b) 100%) padding-box,linear-gradient(140deg,var(--line),var(--line)) border-box}
+.card:hover .tile{background:radial-gradient(120% 90% at 50% 30%,var(--tile-a) 0%,var(--tile-b) 100%) padding-box,linear-gradient(140deg,var(--glow),var(--blue) 70%,var(--red)) border-box;box-shadow:0 24px 50px -20px rgba(29,78,216,.8),0 0 30px -6px rgba(47,107,255,.6)}
+.card:hover h3{animation:glitch .45s steps(2) 1;color:#fff}
+@keyframes glitch{0%{text-shadow:2px 0 var(--pink),-2px 0 var(--blue);transform:translateX(1px)}50%{text-shadow:-3px 0 var(--pink),3px 0 var(--blue);transform:translateX(-2px)}100%{text-shadow:none;transform:none}}
+.badge{background:var(--pink);font-family:var(--marker);text-transform:none;letter-spacing:0;font-size:14px;border-radius:20px;transform:rotate(-4deg);box-shadow:0 0 16px var(--pink)}
+.ticker{background:linear-gradient(90deg,var(--blue),var(--purple),var(--blue));background-size:200% 100%;animation:shift 8s linear infinite}
+@keyframes shift{to{background-position:200% 0}}
+.manifesto .logo::before{content:"";position:absolute;inset:10%;background:radial-gradient(closest-side,rgba(47,107,255,.6),rgba(29,78,216,.3) 60%,transparent);filter:blur(30px);animation:breathe 4s ease-in-out infinite;z-index:-1}
+@keyframes breathe{50%{opacity:.5;transform:scale(1.15)}}
+.manifesto .lines b:nth-child(3){color:var(--pink)}
+.manifesto .logo img{clip-path:inset(0 1.2%)}
+.posters figure:hover img{filter:saturate(1.35) hue-rotate(-8deg)}
+.posters figcaption{font-family:var(--drip);text-transform:none}
+.foot .big{font-family:var(--drip)}
+.pills input:checked+label,.chip[aria-pressed=true]{background:linear-gradient(100deg,var(--blue),var(--purple));border-color:transparent;box-shadow:0 0 20px rgba(29,78,216,.55)}
+.stage img.swap{animation:circ .6s var(--ease)}
+@keyframes circ{from{clip-path:circle(0% at 50% 50%)}to{clip-path:circle(75% at 50% 50%)}}
+.iris{position:fixed;inset:0;z-index:70;pointer-events:none;background:radial-gradient(circle,var(--glow),var(--blue) 45%,var(--purple) 75%,var(--ink));clip-path:circle(0% at var(--cx,50%) var(--cy,50%))}
+.iris.go{animation:iris .9s var(--ease)}
+@keyframes iris{0%{clip-path:circle(0% at var(--cx,50%) var(--cy,50%))}45%,55%{clip-path:circle(150% at var(--cx,50%) var(--cy,50%))}100%{clip-path:circle(150% at var(--cx,50%) var(--cy,50%));opacity:0}}
+.hero h1 .w>span{animation-name:wordUpGlow}
+@keyframes wordUpGlow{from{transform:translateY(105%) rotate(4deg);filter:blur(6px)}70%{filter:blur(0) drop-shadow(0 0 22px rgba(29,78,216,.9))}}
+
+
+/* ---- 3D product viewer ---- */
+.stage.s3d{background:radial-gradient(70% 60% at 50% 45%,rgba(47,107,255,.35),rgba(29,78,216,.12) 45%,transparent 70%),radial-gradient(120% 120% at 50% 0%,#0d1730,var(--ink));border:1px solid var(--line);overflow:visible}
+.scene{position:absolute;inset:0;perspective:1300px;touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none}
+.scene:active{cursor:grabbing}
+.spin{position:absolute;inset:7% 9% 15%;transform-style:preserve-3d;will-change:transform}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:14px;overflow:hidden;background:radial-gradient(120% 90% at 50% 30%,var(--tile-a),var(--tile-b));box-shadow:0 30px 60px -25px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.08) inset}
+.face.back{transform:rotateY(180deg)}
+.face img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;padding:4%;mix-blend-mode:multiply;pointer-events:none;-webkit-user-drag:none}
+.face img.half{width:200%;max-width:none;padding:5% 2.5%}
+.face.back img.half{left:-100%}
+.face .sheen{position:absolute;inset:0;pointer-events:none;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.55) 48%,transparent 62%);background-size:250% 100%;background-position:var(--sx,50%) 0;mix-blend-mode:soft-light}
+.brandback{position:absolute;inset:0;display:grid;place-items:center;align-content:center;gap:10px;text-align:center;background:radial-gradient(90% 80% at 50% 40%,#13224a,#05070d);padding:12%}
+.brandback .big{font-family:var(--script);font-size:clamp(34px,6vw,64px);line-height:1}
+.brandback .sub{font-family:var(--label);font-weight:700;letter-spacing:.24em;text-transform:uppercase;font-size:12px;color:var(--glow)}
+.brandback .num{font-family:var(--display);font-size:clamp(60px,12vw,130px);line-height:.9;color:transparent;-webkit-text-stroke:2px var(--glow);text-shadow:0 0 30px rgba(47,107,255,.5)}
+.floor{position:absolute;left:18%;right:18%;bottom:5%;height:7%;border-radius:50%;background:radial-gradient(closest-side,rgba(47,107,255,.75),rgba(47,107,255,0));filter:blur(6px);transform:scaleX(var(--fs,1));opacity:var(--fo,1)}
+.s3d-bar{position:absolute;left:12px;right:12px;bottom:12px;display:flex;justify-content:space-between;align-items:center;gap:8px;z-index:3;pointer-events:none}
+.s3d-bar>*{pointer-events:auto}
+.hint{font-family:var(--label);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:12px;color:var(--chrome);background:rgba(5,7,13,.65);border:1px solid var(--line);padding:6px 12px;border-radius:30px;backdrop-filter:blur(6px)}
+.hint b{color:var(--red)}
+.flipbtn{font-family:var(--label);font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:12px;color:#fff;background:linear-gradient(100deg,var(--blue),var(--purple));border:0;padding:8px 14px;border-radius:30px;cursor:pointer;box-shadow:0 0 18px rgba(47,107,255,.5)}
+.stage.s3d .badge{z-index:4}
+/* ---- view modes: 3D model / spin card / video ---- */
+.modes{display:flex;gap:6px;margin:0 0 10px;flex-wrap:wrap}
+.modes button{font-family:var(--label);font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:12px;color:var(--chrome);background:rgba(5,7,13,.6);border:1px solid var(--line);padding:8px 14px;border-radius:30px;cursor:pointer;transition:background .25s,box-shadow .25s,transform .2s}
+.modes button[aria-pressed=true]{color:#fff;background:linear-gradient(100deg,var(--blue),var(--purple));border-color:transparent;box-shadow:0 0 18px rgba(47,107,255,.5)}
+.modes button:hover{transform:translateY(-1px)}
+.modes button:focus-visible{outline:2px solid var(--glow);outline-offset:3px}
+.modes .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--red);box-shadow:0 0 8px var(--red);margin-right:7px;vertical-align:1px}
+.layer{position:absolute;inset:0;z-index:2;border-radius:8px;overflow:hidden;opacity:0;pointer-events:none;transition:opacity .45s var(--ease),transform .45s var(--ease);transform:scale(.96)}
+.layer.on{opacity:1;pointer-events:auto;transform:none}
+.layer canvas.gl{width:100%;height:100%;display:block;touch-action:pan-y;cursor:grab}
+.layer canvas.gl:active{cursor:grabbing}
+.glshadow{position:absolute;left:22%;right:22%;bottom:7%;height:6%;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.65),transparent);pointer-events:none}
+.glmsg[hidden]{display:none}
+.glmsg{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--label);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:12px;color:var(--chrome);pointer-events:none}
+.layer video{width:100%;height:100%;object-fit:contain;background:#05070d;display:block}
+.stage.s3d[data-mode=model] .scene,.stage.s3d[data-mode=model] .s3d-bar,.stage.s3d[data-mode=video] .scene,.stage.s3d[data-mode=video] .s3d-bar{opacity:0;pointer-events:none}
+.stage.s3d .scene,.stage.s3d .s3d-bar{transition:opacity .35s}
+.mvhint{position:absolute;left:12px;bottom:12px;z-index:3}
+/* scroll reveals (visible at rest; only animate where supported) */
+@supports (animation-timeline: view()){
+  .rv{animation:rv linear both;animation-timeline:view();animation-range:entry 0% entry 55%}
+  @keyframes rv{from{opacity:.1;transform:translateY(60px) scale(.96)}}
+  .px img{animation:px linear both;animation-timeline:view()}
+  @keyframes px{from{transform:scale(1.15) translateY(-4%)}to{transform:scale(1.02) translateY(4%)}}
+  .grow{animation:grow linear both;animation-timeline:view();animation-range:entry 0% cover 40%}
+  @keyframes grow{from{letter-spacing:.3em;opacity:.2}}
+}
+
+/* page transitions */
+main{display:block}
+main.enter{animation:pageIn .7s var(--ease)}
+@keyframes pageIn{from{opacity:0;transform:translateY(26px);filter:blur(6px)}}
+.wipe{position:fixed;inset:0;z-index:70;pointer-events:none;background:linear-gradient(90deg,var(--blue),var(--purple));transform:translateX(-101%)}
+.wipe.go{animation:wipe .75s var(--ease)}
+@keyframes wipe{0%{transform:translateX(-101%)}45%,55%{transform:translateX(0)}100%{transform:translateX(101%)}}
+::view-transition-old(root){animation:vtOut .6s var(--ease) both;z-index:1}
+::view-transition-new(root){animation:reveal .8s var(--ease) both;z-index:2}
+@keyframes reveal{from{clip-path:circle(0% at var(--cx,50%) var(--cy,50%))}to{clip-path:circle(150% at var(--cx,50%) var(--cy,50%))}}
+@keyframes vtOut{to{opacity:0;transform:scale(.97);filter:blur(4px)}}
+@keyframes vtIn{from{opacity:0;transform:translateY(30px)}}
+::view-transition-group(shot){animation-duration:.65s;animation-timing-function:var(--ease)}
+
+/* ===== Events, community and fan photos (added 2026-11-13) ===== */
+.ev-band{display:grid;grid-template-columns:1fr 1fr;gap:18px;padding-block:70px 30px}
+.ev-card{position:relative;display:grid;grid-template-columns:42% 1fr;gap:18px;align-items:center;text-decoration:none;color:inherit;background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden;padding:14px;transition:transform .5s var(--ease),box-shadow .5s,border-color .5s}
+.ev-card:hover{transform:translateY(-6px);border-color:var(--blue);box-shadow:0 20px 60px -20px rgba(47,107,255,.6)}
+.ev-card img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:6px}
+.ev-card h3{font-family:var(--drip);font-weight:400;font-size:clamp(30px,3.4vw,44px);line-height:1;margin:6px 0 8px}
+.ev-card .when{font-family:var(--display);font-size:clamp(20px,2.2vw,28px);text-transform:uppercase;letter-spacing:.02em}
+.ev-card.ice .when{color:#9fd8ff;text-shadow:0 0 18px rgba(120,200,255,.7)}
+.ev-card.win .when{color:#fff}.ev-card.win .when b{color:var(--red)}
+.ev-card .go{font-family:var(--label);font-weight:600;letter-spacing:.16em;text-transform:uppercase;font-size:13px;color:var(--glow);margin-top:10px;display:block}
+@media(max-width:860px){.ev-band{grid-template-columns:1fr}}
+@media(max-width:420px){.ev-card{grid-template-columns:1fr}}
+
+.ev{position:relative;overflow:hidden;isolation:isolate}
+.ev-hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:44px;align-items:center;padding-block:120px 60px;margin-top:-64px}
+.ev-hero .flyer{margin:0;position:relative;border-radius:10px;overflow:hidden;box-shadow:0 40px 100px -30px rgba(47,107,255,.65);transform:rotate(-1.5deg);transition:transform .8s var(--ease)}
+.ev-hero .flyer:hover{transform:rotate(0) scale(1.01)}
+.ev-hero .flyer img{width:100%;height:auto}
+.ev-hero h1{font-family:var(--drip);font-weight:400;font-size:clamp(52px,8vw,108px);line-height:.92;margin:10px 0 14px}
+.ev-hero .lede{font-size:18px;line-height:1.6;color:#c9d3e6;max-width:52ch;margin:0 0 22px}
+.ev-when{display:inline-flex;align-items:center;gap:12px;font-family:var(--display);font-size:clamp(28px,4vw,46px);text-transform:uppercase;line-height:1;margin-bottom:22px}
+.cd{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;max-width:460px;margin:0 0 10px}
+.cd div{background:rgba(11,17,30,.75);border:1px solid var(--line);border-radius:8px;padding:12px 6px;text-align:center;backdrop-filter:blur(6px)}
+.cd b{display:block;font-family:var(--display);font-weight:400;font-size:clamp(30px,4.4vw,48px);line-height:1;font-variant-numeric:tabular-nums}
+.cd span{font-family:var(--label);font-weight:600;letter-spacing:.18em;text-transform:uppercase;font-size:11px;color:var(--muted)}
+.cd-note{font-family:var(--label);letter-spacing:.06em;color:var(--muted);font-size:14px;margin:0 0 24px}
+.ev-notify{display:flex;gap:10px;flex-wrap:wrap;max-width:460px}
+.ev-notify input{flex:1 1 200px;min-width:0;background:var(--panel);border:1px solid var(--line);color:var(--chrome);padding:14px;font:inherit;border-radius:4px}
+.ev-notify input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(47,107,255,.3)}
+.ev-feat{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;padding-block:30px 40px}
+.ev-feat figure{margin:0;background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.ev-feat img{width:100%;aspect-ratio:1;object-fit:cover;transition:transform 1s var(--ease)}
+.ev-feat figure:hover img{transform:scale(1.06)}
+.ev-feat figcaption{padding:14px 16px 18px;font-family:var(--label);font-weight:600;letter-spacing:.12em;text-transform:uppercase;font-size:14px}
+.ev-feat figcaption small{display:block;font-family:var(--body);font-weight:400;letter-spacing:0;text-transform:none;font-size:14px;color:var(--muted);margin-top:6px;line-height:1.5}
+.ev-facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;padding-bottom:50px}
+.ev-facts div{border-top:2px solid var(--blue);padding-top:12px}
+.ev-facts b{display:block;font-family:var(--display);font-weight:400;font-size:24px;text-transform:uppercase}
+.ev-facts span{color:var(--muted);font-size:15px}
+.ev-also{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:30px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px;margin-bottom:90px}
+.ev-also img{width:100%;border-radius:8px;background:#fff}
+.ev-also h3{font-family:var(--drip);font-weight:400;font-size:clamp(34px,4vw,52px);line-height:1;margin:8px 0 10px}
+.ev-also p{color:#c9d3e6;line-height:1.6;margin:0 0 16px}
+@media(max-width:860px){.ev-hero{grid-template-columns:1fr;gap:30px;padding-top:100px}.ev-feat{grid-template-columns:1fr 1fr}.ev-facts{grid-template-columns:1fr 1fr}.ev-also{grid-template-columns:1fr}}
+@media(max-width:520px){.ev-feat{grid-template-columns:1fr}}
+
+/* ice theme */
+.ev.ice{background:radial-gradient(80% 60% at 70% 0%,rgba(120,200,255,.28),transparent 70%),linear-gradient(180deg,#071226,var(--ink) 70%)}
+.ev.ice .ev-when{color:#bfe6ff;text-shadow:0 0 22px rgba(120,200,255,.9),0 0 2px #fff}
+.ev.ice .cd div{border-color:rgba(150,210,255,.35);box-shadow:inset 0 0 24px rgba(120,200,255,.12)}
+.ev.ice .cd b{color:#e6f6ff;text-shadow:0 0 16px rgba(120,200,255,.8)}
+.ev.ice .ev-facts div{border-color:#7cc8ff}
+.snow{position:absolute;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.snow i{position:absolute;top:-12px;width:var(--s);height:var(--s);border-radius:50%;background:#fff;opacity:var(--o);filter:blur(.4px);box-shadow:0 0 8px rgba(190,230,255,.9);animation:fall var(--d) linear var(--dl) infinite}
+@keyframes fall{to{transform:translate(var(--x),105vh)}}
+.frost{position:absolute;left:0;right:0;top:0;height:60px;z-index:1;pointer-events:none;background:repeating-linear-gradient(90deg,transparent 0 18px,rgba(200,235,255,.55) 18px 20px,transparent 20px 34px);-webkit-mask:linear-gradient(#000,transparent);mask:linear-gradient(#000,transparent);opacity:.5}
+
+/* winners theme */
+.ev.win{background:radial-gradient(70% 60% at 20% 0%,rgba(229,38,45,.22),transparent 70%),linear-gradient(180deg,#0b0d14,var(--ink) 70%)}
+.ev-when b{white-space:nowrap}.ev.win .ev-when b{color:var(--red);text-shadow:0 0 24px rgba(229,38,45,.8)}
+.ev.win .ev-facts div{border-color:var(--red)}
+.checker{height:26px;background:conic-gradient(#fff 25%,#000 0 50%,#fff 0 75%,#000 0) 0 0/26px 26px;animation:race 1.6s linear infinite;opacity:.9;transform:skewY(-2deg);margin-block:-1px;box-shadow:0 0 40px rgba(229,38,45,.4)}
+@keyframes race{to{background-position:52px 0}}
+.flagwave{display:inline-block;transform-origin:10% 90%;animation:wave 1.6s ease-in-out infinite}
+@keyframes wave{50%{transform:rotate(-12deg)}}
+
+/* community */
+.fan-grid{columns:3 280px;column-gap:16px;padding-bottom:40px}
+.fan{break-inside:avoid;margin:0 0 16px;position:relative;border-radius:10px;overflow:hidden;background:var(--panel);border:1px solid var(--line);cursor:zoom-in}
+.fan img{width:100%;height:auto;transition:transform 1s var(--ease)}
+.fan:hover img{transform:scale(1.04)}
+.fan figcaption{position:absolute;left:0;right:0;bottom:0;padding:50px 14px 12px;background:linear-gradient(transparent,rgba(5,7,13,.92));display:flex;flex-wrap:wrap;gap:6px;align-items:end}
+.tag{display:inline-block;font-family:var(--label);font-weight:600;letter-spacing:.1em;text-transform:uppercase;font-size:12px;padding:4px 10px;border-radius:20px;background:rgba(47,107,255,.85);color:#fff;text-decoration:none}
+.tag:hover{background:var(--red)}
+.lb{position:fixed;inset:0;z-index:90;background:rgba(3,5,10,.92);display:grid;place-items:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s}
+.lb.on{opacity:1;pointer-events:auto}
+.lb img{max-width:min(92vw,900px);max-height:80vh;border-radius:8px;box-shadow:0 30px 90px rgba(0,0,0,.7)}
+.lb .cap{margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.lb button{position:absolute;top:14px;right:16px;background:none;border:0;color:#fff;font-size:34px;cursor:pointer}
+.up{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:24px;margin-bottom:90px}
+.drop{position:relative;display:grid;place-items:center;text-align:center;min-height:280px;border:2px dashed #33507f;border-radius:10px;padding:20px;cursor:pointer;transition:border-color .3s,background .3s;overflow:hidden}
+.drop.over,.drop:hover{border-color:var(--glow);background:rgba(47,107,255,.08)}
+.drop input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.drop .big{font-family:var(--display);font-size:30px;text-transform:uppercase;line-height:1.1}
+.drop img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#05070d}
+.up form{display:grid;gap:14px;align-content:start}
+.up label{display:block;font-family:var(--label);font-weight:600;letter-spacing:.14em;text-transform:uppercase;font-size:13px;color:var(--muted);margin-bottom:6px}
+.up input[type=text],.up select{width:100%;background:var(--ink);border:1px solid var(--line);color:var(--chrome);padding:13px;font:inherit;border-radius:4px}
+.up .chk{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:#c9d3e6;line-height:1.5}
+.up .chk input{margin-top:3px;accent-color:var(--blue)}
+.heads{border:1px solid #7a5b1c;background:rgba(255,190,60,.08);color:#ffe2a6;border-radius:8px;padding:12px 14px;font-size:14px;line-height:1.55}
+.heads b{color:#fff}
+@media(max-width:860px){.up{grid-template-columns:1fr}}
+
+/* fan photos on product pages */
+.thumbs button.fanth{position:relative;background:#05070d}
+.thumbs button.fanth img{object-fit:cover;mix-blend-mode:normal}
+.thumbs button.fanth::after{content:"Fan";position:absolute;left:4px;bottom:4px;font-family:var(--label);font-weight:700;font-size:10px;letter-spacing:.1em;text-transform:uppercase;background:var(--red);color:#fff;padding:1px 6px;border-radius:10px}
+.layer.photo{background:#05070d}
+.layer.photo img{width:100%;height:100%;object-fit:contain;padding:0;mix-blend-mode:normal}
+.stage.s3d[data-mode=photo] .scene,.stage.s3d[data-mode=photo] .s3d-bar{opacity:0;pointer-events:none}
+.worn{padding-bottom:40px}
+.worn .row{display:grid;grid-auto-flow:column;grid-auto-columns:min(60vw,220px);gap:14px;overflow-x:auto;padding-bottom:12px}
+.worn button{padding:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--panel);cursor:zoom-in}
+.worn img{width:100%;aspect-ratio:4/5;object-fit:cover}
+
+@media (prefers-reduced-motion: reduce){.cursor-glow,.sparks,.snow{display:none}*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.intro{display:none}}
+</style>
+
+<div class="intro" aria-hidden="true"><img src="photos/IMG_2005.jpg" alt=""></div>
+<div class="wipe" aria-hidden="true"></div><div class="iris" aria-hidden="true"></div><div class="progress" id="prog" aria-hidden="true"></div><div class="cursor-glow" id="glow" aria-hidden="true"></div>
+<a class="skip" href="#MainContent">Skip to content</a>
+<a class="ticker" href="#catalog" aria-label="Shop our latest arrivals"><div class="track" id="tick1"></div></a>
+<header class="site gut" id="hdr"><div class="bar wrap">
+  <div><button class="menu-btn" id="menu" aria-label="Menu">&#9776;</button>
+  <nav id="nav"><a href="#home" data-r="home">Home</a><a href="#catalog" data-r="catalog">Catalog</a><a href="#events" data-r="events">Events</a><a href="#community" data-r="community">Community</a><a href="#contact" data-r="contact">Contact</a></nav></div>
+  <a class="brand chrome" href="#home">KickHeadz</a>
+  <div class="icons"><a href="#catalog">Search</a><a href="https://kickheadzapparelcompany.com/account">Account</a><a class="cart" href="https://kickheadzapparelcompany.com/cart">Cart</a></div>
+</div></header>
+<main id="MainContent"></main>
+<footer class="site gut"><div class="wrap">
+  <div class="foot">
+    <div><div class="big chrome flicker">KickHeadz</div><p class="pin" style="margin:10px 0 0">📍 Cleveland, Ohio · 216 · Est. 2026</p>
+      <form class="subscribe" id="sub"><input id="subemail" type="email" placeholder="Your email" required aria-label="Email"><button class="btn" style="font-size:16px;padding:10px 20px">Join</button></form></div>
+    <div><h4>Shop</h4><ul><li><a href="#catalog">All products</a></li><li><a href="#events">Events</a></li><li><a href="#community">Community</a></li><li><a href="#contact">Contact</a></li><li><a href="https://kickheadzapparelcompany.com/policies/privacy-policy">Privacy policy</a></li></ul></div>
+    <div><h4>Follow</h4><ul><li><a href="https://www.instagram.com/kickheadzapparelcompany/">Instagram</a></li><li><a href="https://www.tiktok.com/">TikTok</a></li><li><a href="https://www.youtube.com/">YouTube</a></li></ul></div>
+  </div>
+  <div class="copy">© 2026 KickHeadz apparel company · Stay fly. Stay original.</div>
+</div></footer>
+
+<script>
+// Product data copied from https://kickheadzapparelcompany.com/products.json
+const CDN = "photos/";
+const LIVE = "https://kickheadzapparelcompany.com/products/";
+window.PRODUCTS = [
+  {t:"Kickheadz them tuff 216",h:"kickheadz-them-tuff-216",p:29.99,img:["IMG_1831.jpg?v=1794144328"],opts:[],v:[{n:"Default",a:1}]},
+  {t:"KickHeadz chief wahoo edition GOLD MOUF",h:"kickheadz-chief-wahoo-edition-gold-mouf",p:29.99,img:["IMG_2228.jpg?v=1793820630"],opts:[["Size",["S","M","L","XL"]]],v:[{n:"S",a:1},{n:"M",a:1},{n:"L",a:1},{n:"XL",a:1}]},
+  {t:"KickHeadz X Cleveland browns sweatshirt edition",h:"untitled-nov-2-at-1-25-pm",p:29.99,d:"KickHeadz X Cleveland browns sweatshirt",img:["IMG_2070.jpg?v=1793643983","IMG_2059.jpg?v=1793643983","IMG_2180.jpg?v=1793643983"],opts:[["Color",["Brown","Orange","White"]],["Size",["S","M","L","XL"]]],v:[{n:"Brown / S",a:1},{n:"Orange / S",a:0},{n:"White / S",a:0},{n:"Brown / L",a:1},{n:"Brown / XL",a:0},{n:"Brown / M",a:1},{n:"Orange / L",a:0},{n:"Orange / XL",a:0},{n:"Orange / M",a:0},{n:"White / L",a:1},{n:"White / XL",a:0},{n:"White / M",a:1}]},
+  {t:"KickHeadz Blue Rose",h:"kickheadz-blue-rose",p:29.99,img:["IMG_2114.jpg?v=1793639691"],opts:[["Color",["Black"]]],v:[{n:"Black",a:1}]},
+  {t:"Kickheadz love taps sweatshirt",h:"kickheadz-love-taps-sweatshirt",p:29.99,img:["IMG_2088.jpg?v=1793639483","IMG_2087.jpg?v=1793639483","IMG_2089.jpg?v=1793639483"],opts:[["Color",["Red","Black","White"]],["Size",["Small","Medium","Large"]]],v:[{n:"Red / Medium",a:1},{n:"Black / Medium",a:1},{n:"White / Medium",a:1},{n:"Red / Small",a:0},{n:"Red / Large",a:0},{n:"Black / Small",a:0},{n:"Black / Large",a:0},{n:"White / Small",a:0},{n:"White / Large",a:0}]},
+  {t:"Them tuff Kickheadz sweatshirts",h:"them-tuff-kickheadz-sweatshirts",p:29.99,img:["Them_tuff_black_and_purple.jpg?v=1793038112","Them_tuff_blue_and_white.jpg?v=1793038131","Them_tuff_black_and_white.jpg?v=1793038150"],opts:[],v:[{n:"Default",a:1}]},
+  {t:"Press Play kickheadz sweatshirt",h:"press-play-kickheadz-sweatshirt",p:29.99,img:["Press_Play.jpg?v=1792951679","Press_Play_black_purple.jpg?v=1792986934","Press_Play_grey_purple.jpg?v=1792986981"],opts:[["Color",["Red","Black","Gray"]]],v:[{n:"Red",a:0},{n:"Black",a:0},{n:"Gray",a:0}]},
+  {t:"KickHeadz Lionhearted sweatshirt",h:"kickheadz-lionhearted-sweatshirt",p:29.99,img:["Lionhearted.jpg?v=1792948526"],opts:[["Size",["S","M","L","XL"]]],v:[{n:"S",a:0},{n:"L",a:0},{n:"M",a:1},{n:"XL",a:0}]},
+  {t:"Product of Kickheadz apparel company sweatshirt",h:"product-of-kickheadz-apparel-company-sweatshirt",p:29.99,img:["Product_of_KickHeadz_grey.jpg?v=1792953615","Product_of_KickHeadz.jpg?v=1792953578"],opts:[["Color",["Blue","Gray"]]],v:[{n:"Blue",a:1},{n:"Gray",a:1}]},
+  {t:"KickHeadz Sharkin sweatshirt",h:"kickheadz-sharkin-sweatshirt",p:29.99,img:["Sharkin_red.jpg?v=1792953517","Sharkin_black.jpg?v=1792953538"],opts:[["Size",["S","M","L","XL"]],["Color",["Red","Black"]]],v:[{n:"S / Red",a:0},{n:"XL / Red",a:0},{n:"L / Red",a:1},{n:"M / Red",a:0},{n:"S / Black",a:0},{n:"XL / Black",a:0},{n:"L / Black",a:1},{n:"M / Black",a:0}]},
+  {t:"KickHeadz wings tee",h:"kickheadz-wings-tee",p:12.99,img:["Kickheadz_wing_tee.jpg?v=1792944986"],opts:[["Color",["Black"]]],v:[{n:"Black",a:1}]},
+  {t:"KickHeadz 4 panel sweatshirt",h:"kickheadz-4-panel-sweatshirt",p:29.99,img:["KickHeadz_4_panel_sweatshirt.jpg?v=1792944221","IMG_1564.jpg?v=1793848584"],opts:[["Style",["Color blue size medium","Red"]]],v:[{n:"Color blue size medium",a:1},{n:"Red",a:0}]},
+  {t:"KickHeadz Cleveland city edition",h:"untitled-oct15_01-50-17",p:29.99,img:["8A1C05E9-AF3F-4A3A-AD63-99B0D97869F2.jpg?v=1792043458","727A343D-E2BB-40E4-8B71-51ACB2E51406.jpg?v=1792043458","FC0431B1-448A-4587-BAEC-E90684EBFFBF.jpg?v=1792043458","C48911D6-6D6B-4A29-9174-1B418F4379BA.jpg?v=1792043458"],opts:[["Color",["Black","Red","Blue","Gray"]]],v:[{n:"Black",a:1},{n:"Red",a:1},{n:"Blue",a:1},{n:"Gray",a:1}]},
+  {t:"KickHeadz masked up sweater",h:"kickheadz-masked-up-sweater",p:29.99,img:["KickHeadz_masked_up_sweatshirt_black.jpg?v=1792340792","591D83A0-0AE6-45BB-B1BE-2910FB064FBE.jpg?v=1792340472","KickHeadz_masked_up_sweater_grey.jpg?v=1792340633","KickHeadz_masked_up_sweater.jpg?v=1792340604"],opts:[],v:[{n:"Default",a:1}]},
+  {t:"KickHeadz why so serious Tee",h:"kickheadz-why-so-serious-tee",p:12.99,img:["2CD69095-A368-42D1-9825-F17467FD2764.jpg?v=1792001368"],opts:[["Color",["Black"]]],v:[{n:"Black",a:0}]},
+  {t:"Fly denim KickHeadz sweater",h:"fly-denim-kickheadz-sweater",p:29.99,img:["Kickheadz_fly_denim_sweatshirt_black.jpg?v=1792945486","Kickheadz_fly_denim_sweatshirt_blue.jpg?v=1792945397","KickHeadz_fly_denim_sweatshirt_red.jpg?v=1792945434","Fly_denim_Kickheadz_grey.jpg?v=1793065886","Black.jpg?v=1793065857","Red.jpg?v=1793065841","Blue.jpg?v=1793065822","Grey.jpg?v=1793065810"],opts:[["Color",["Black","Blue","Gray","Red"]]],v:[{n:"Black",a:0},{n:"Blue",a:0},{n:"Gray",a:1},{n:"Red",a:0}]}
+];
+window.imgUrl = (f, w) => CDN + f.split("?")[0];
+window.liveUrl = h => LIVE + h;
+window.soldOut = p => p.v.every(x => !x.a);
+window.money = n => "$" + n.toFixed(2) + " USD";
+
+
+// Customer / supporter photos. p = product indexes in PRODUCTS (matched by the graphic on the shirt).
+const FANS=[
+ {f:"fans/sharkin-red.jpg",p:[9],c:"Red Sharkin, Cleveland driveway"},
+ {f:"fans/them-tuff-bear.jpg",p:[0],c:"Them Tuff 216 after dark"},
+ {f:"fans/fly-denim-bags.jpg",p:[15,8,9],c:"Fly Denim Originals, with a Product of KickHeadz and a Sharkin order"},
+ {f:"fans/sharkin-black.jpg",p:[9],c:"Black Sharkin on the job"},
+ {f:"fans/gold-mouf-love-taps.jpg",p:[1,4],c:"Gold Mouf and Love Taps, Shoot Your Shot"},
+ {f:"fans/fly-denim-mirror.jpg",p:[15],c:"Fly Denim Originals mirror fit"}
+];
+const fansFor=i=>FANS.filter(x=>x.p.includes(i));
+const SHORT={0:'Them Tuff 216',1:'Gold Mouf',4:'Love Taps',8:'Product of KickHeadz',9:'Sharkin',15:'Fly Denim'};
+const short=(t,i)=>SHORT[i]||t;
+const tags=x=>x.p.map(i=>`<a class="tag" href="#product-${i}">${short(PRODUCTS[i].t,i)}</a>`).join('');
+const EVENTS={
+ ice:{at:new Date(2026,11,1),label:'December 2026'},
+ win:{at:new Date(2027,0,15),label:'January 15, 2027'}
+};
+const cd=id=>`<div class="cd" id="${id}" aria-live="off"><div><b>--</b><span>Days</span></div><div><b>--</b><span>Hrs</span></div><div><b>--</b><span>Min</span></div><div><b>--</b><span>Sec</span></div></div>`;
+const notify=(id,txt)=>`<form class="ev-notify" id="${id}"><input type="email" required placeholder="Your email" aria-label="Email for drop alerts"><button class="btn">${txt}</button></form>`;
+const snow=()=>`<div class="snow" aria-hidden="true">${Array.from({length:46},()=>{const s=(Math.random()*5+2).toFixed(1);return `<i style="left:${(Math.random()*100).toFixed(1)}%;--s:${s}px;--o:${(Math.random()*.6+.3).toFixed(2)};--d:${(Math.random()*8+7).toFixed(1)}s;--dl:-${(Math.random()*15).toFixed(1)}s;--x:${(Math.random()*80-40).toFixed(0)}px"></i>`}).join('')}</div>`;
+const M=document.getElementById('MainContent');
+const tickWords=['Ice Cold Stick Boy · Dec 2026','Winners · Jan 15','Shop our latest arrivals','Born in Cleveland','Built different','Est. 2026','Stay fly','Stay original','216'];
+const tw=w=>w.map(t=>`<span>${t}</span><span class="star" aria-hidden="true">✦</span>`).join('');
+document.getElementById('tick1').innerHTML=tw(tickWords)+tw(tickWords);
+const mq=['Stay fly','Stay original','216','Built different','Your rules','KickHeadz'];const mqh=mq.map(t=>`<span>${t}</span>`).join('');
+const esc=s=>String(s).replace(/"/g,'&quot;');
+function card(p){const i=PRODUCTS.indexOf(p);const alt=p.img[1]?`<img class="alt" loading="lazy" src="${imgUrl(p.img[1])}" alt="">`:'';
+ return `<a class="card rv" href="#product-${i}" data-i="${i}"><div class="tile">${alt}<img loading="lazy" src="${imgUrl(p.img[0])}" alt="${esc(p.t)}"><div class="shine"></div>${soldOut(p)?'<span class="badge">Sold out</span>':''}</div><h3>${p.t}</h3><div class="price">${money(p.p)}</div></a>`}
+function words(t,d0){return t.split(' ').map((w,k)=>`<span class="w"><span style="animation-delay:${d0+k*.09}s">${w}</span></span>`).join(' ')}
+const views={
+home(){const f=["kickheadz-chief-wahoo-edition-gold-mouf","kickheadz-blue-rose","fly-denim-kickheadz-sweater","kickheadz-4-panel-sweatshirt"];
+ return `<section class="hero gut"><canvas class="sparks" id="sparks" aria-hidden="true"></canvas><div class="bg"><img src="photos/kickheadz-fuller-hero-a3a82856.jpg" alt="Welcome to KickHeadz Apparel Company, Cleveland skyline at night"></div>
+  <div class="wrap copy"><span class="eyebrow" style="animation:fadeUp .8s 1.6s var(--ease) both">📍 Cleveland, Ohio · 216</span>
+  <h1 class="chrome">${words('Born in Cleveland.',1.7)}<br>${words('Built different.',2.0)}</h1>
+  <div class="sig script">Your style. Your rules. Your KickHeadz.</div>
+  <div class="row"><a class="btn" href="#catalog">Come shop with us</a><a class="btn ghost" href="#latest">Latest drops</a></div></div></section>
+ <section class="gut"><div class="wrap manifesto">
+  <div class="logo rv"><img src="photos/IMG_2005.jpg" alt="KickHeadz chrome logo"></div>
+  <div class="rv"><span class="eyebrow">🔥 Welcome to KickHeadz Apparel Company 🔥</span>
+   <h2 class="chrome drip-glow">Our shop</h2>
+   <p>KickHeadz isn't about following trends. It's a lifestyle and a mindset, made for the ones who stand out.</p>
+   <div class="lines"><b>Born in Cleveland. Built different. Est. 2026.</b><b>Your style. Your rules. Your KickHeadz.</b><b>Stay fly. Stay original. Shop KickHeadz.</b></div>
+   <a class="btn" href="#catalog">Come shop with us</a></div></div></section>
+
+ <section class="gut"><div class="wrap"><div class="section-head rv" style="margin:70px 0 0"><div><span class="eyebrow">Mark your calendar</span><h2 class="chrome drip-glow">Upcoming drops</h2></div><a href="#events">All events →</a></div>
+  <div class="ev-band">
+   <a class="ev-card ice rv" href="#ice-cold"><img loading="lazy" src="photos/events/ice-cold-stickboy.jpg" alt="Ice Cold Stick Boy character in a blue puffer"><div><span class="eyebrow">KickHeadz presents</span><h3>Ice Cold Stick Boy</h3><div class="when">❄ Coming Dec 2026</div><span class="go">See the drop →</span></div></a>
+   <a class="ev-card win rv" href="#winners"><img loading="lazy" src="photos/events/winners-front.jpg" alt="Black Winners crewneck sweatshirt"><div><span class="eyebrow">The Winners collection</span><h3>Winners</h3><div class="when">🏁 Available <b>Jan 15</b></div><span class="go">See the drop →</span></div></a>
+  </div></div></section>
+ <div class="drips" aria-hidden="true"></div>
+ <a class="ticker alt" href="#catalog" aria-label="Shop the catalog"><div class="track">${tw(['Your style','Your rules','Your KickHeadz','Stay fly','Shop KickHeadz'])+tw(['Your style','Your rules','Your KickHeadz','Stay fly','Shop KickHeadz'])}</div></a>
+ <section class="gut" id="latest" style="padding-top:100px"><div class="wrap"><div class="section-head rv"><div><span class="eyebrow">Fresh off the press</span><h2 class="chrome drip-glow">Latest drops</h2></div><a href="#catalog">Swipe · View all 16 →</a></div>
+  <div class="rail">${[...f.map(h=>PRODUCTS.find(p=>p.h===h)),...PRODUCTS.filter(p=>!f.includes(p.h)&&!soldOut(p))].slice(0,10).map(card).join('')}</div></div></section>
+ <section class="gut"><div class="wrap posters">
+  <figure class="px rv"><img loading="lazy" src="photos/kickheadz-full-poster-2199.jpg" alt="KickHeadz Blue Rose sweatshirt poster"><figcaption>Blue Rose<br><span class="script" style="font-size:.7em;color:var(--glow)">the perfect match</span></figcaption></figure>
+  <figure class="px rv"><img loading="lazy" src="photos/IMG_2374.jpg" alt="Chief Wahoo KickHeadz edition Gold Mouf poster"><figcaption>Gold Mouf<br><span class="script" style="font-size:.7em;color:var(--glow)">Cleveland edition</span></figcaption></figure>
+ </div></section>
+ <div class="marq" aria-hidden="true"><div class="track">${mqh+mqh}</div></div>
+ <p class="tagline gut rv">The rhythm of the city captured in every seam, inviting a tactile dialogue between wearer and environment.</p>`},
+catalog(){return `<section class="page-head gut"><div class="wrap"><span class="eyebrow">KickHeadz apparel company</span><h1 class="chrome drip-glow">${words('The catalog',0)}</h1></div></section>
+ <section class="gut"><div class="wrap"><div class="toolbar"><div class="chips" id="chips">
+  <button class="chip" aria-pressed="true" data-f="all">All</button><button class="chip" aria-pressed="false" data-f="sweat">Sweatshirts</button><button class="chip" aria-pressed="false" data-f="tee">Tees</button><button class="chip" aria-pressed="false" data-f="in">In stock</button></div>
+  <div style="display:flex;gap:14px;align-items:center"><span class="count" id="count"></span><select id="sort" aria-label="Sort"><option value="">Featured</option><option value="az">A–Z</option><option value="lo">Price, low to high</option><option value="hi">Price, high to low</option></select></div></div>
+  <div class="grid" id="all"></div></div></section>`},
+contact(){return `<section class="page-head gut"><div class="wrap"><span class="eyebrow">Hit us up</span><h1 class="chrome drip-glow">${words('Contact',0)}</h1></div></section>
+ <section class="gut"><div class="wrap"><form class="contact" id="cform">
+ <div><label for="n">Name</label><input id="n" autocomplete="name"></div><div><label for="e">Email*</label><input id="e" type="email" required autocomplete="email"></div>
+ <div class="full-row"><label for="ph">Phone</label><input id="ph" type="tel" autocomplete="tel"></div><div class="full-row"><label for="c">Comment</label><textarea id="c" rows="6"></textarea></div>
+ <div class="full-row"><button class="btn">Send it</button></div></form></div></section>`},
+events(){return `<section class="page-head gut"><div class="wrap"><span class="eyebrow">Mark your calendar</span><h1 class="chrome drip-glow">${words('Events',0)}</h1></div></section>
+ <section class="gut"><div class="wrap"><div class="ev-band" style="padding-top:10px;padding-bottom:90px">
+  <a class="ev-card ice rv" href="#ice-cold"><img src="photos/events/ice-cold-stickboy.jpg" alt="Ice Cold Stick Boy character"><div><span class="eyebrow">KickHeadz presents</span><h3>Ice Cold Stick Boy</h3><div class="when">❄ Coming Dec 2026</div><span class="go">See the drop →</span></div></a>
+  <a class="ev-card win rv" href="#winners"><img src="photos/events/winners-front.jpg" alt="Winners crewneck sweatshirt"><div><span class="eyebrow">The Winners collection</span><h3>Winners</h3><div class="when">🏁 Available <b>Jan 15</b></div><span class="go">See the drop →</span></div></a>
+ </div></div></section>`},
+'ice-cold'(){return `<div class="ev ice"><div class="frost" aria-hidden="true"></div>${snow()}
+ <section class="gut"><div class="wrap ev-hero">
+  <div><span class="eyebrow" style="color:#9fd8ff">KickHeadz apparel company presents</span>
+   <h1 class="chrome">Ice Cold<br>Stick Boy</h1>
+   <div class="ev-when">❄ Coming Dec 2026</div>
+   <p class="lede">Cleveland winters hit different. Stick Boy is bundled up in the blue puffer, wheat boots on, teeth chattering, and he's dropping on a sky-blue KickHeadz crewneck this December.</p>
+   ${cd('cd-ice')}<p class="cd-note">Counting down to December 1. Exact drop day to be announced.</p>
+   ${notify('n-ice','Remind me')}
+  </div>
+  <figure class="flyer"><img src="photos/events/ice-cold-flyer.jpg" alt="KickHeadz presents Ice Cold Stick Boy, coming December 2026. Come shop with us."></figure>
+ </div></section>
+ <section class="gut"><div class="wrap">
+  <div class="section-head"><h2 class="chrome drip-glow">The drop</h2></div>
+  <div class="ev-feat">
+   <figure class="rv"><img loading="lazy" src="photos/events/ice-cold-crew.jpg" alt="Sky blue Ice Cold crewneck sweatshirt"><figcaption>Ice Cold crewneck<small>Sky-blue crewneck with the Stick Boy graphic and frozen "Ice Cold" lettering.</small></figcaption></figure>
+   <figure class="rv"><img loading="lazy" src="photos/events/ice-cold-stickboy.jpg" alt="Stick Boy character shivering in a puffer coat"><figcaption>Meet Stick Boy<small>KickHeadz beanie, blue puffer, frozen solid and still fly.</small></figcaption></figure>
+   <figure class="rv"><img loading="lazy" src="photos/kickheadz-fuller-hero-a3a82856.jpg" alt="Cleveland skyline at night"><figcaption>Cleveland 216<small>Made for the coldest stretch of the year on the lake.</small></figcaption></figure>
+  </div>
+  <div class="ev-facts"><div><b>Dec 2026</b><span>Release month</span></div><div><b>Crewneck</b><span>Sky blue</span></div><div><b>216</b><span>Cleveland made</span></div><div><b>Online</b><span>kickheadzapparelcompany.com</span></div></div>
+  <div style="text-align:center;padding-bottom:90px"><a class="btn" href="#catalog">Shop what's out now</a></div>
+ </div></section></div>`},
+winners(){return `<div class="ev win"><div class="checker" aria-hidden="true"></div>
+ <section class="gut"><div class="wrap ev-hero">
+  <div><span class="eyebrow" style="color:#fff">The KickHeadz Winners collection</span>
+   <h1 class="chrome">Winners</h1>
+   <div class="ev-when"><span class="flagwave" aria-hidden="true">🏁</span> Available <b>Jan 15</b></div>
+   <p class="lede">Checkered flags, flames and a Cleveland 216 edition. The Winners premium crewneck lands January 15th: WINNERS across the chest, crossed racing flags and the KickHeadz Apparel Company patch on the back.</p>
+   ${cd('cd-win')}<p class="cd-note">Drops January 15, 2027.</p>
+   ${notify('n-win','Get the drop alert')}
+  </div>
+  <figure class="flyer"><img src="photos/events/winners-flyer.jpg" alt="KickHeadz Winners sweatshirt, available January 15th. Come shop with us."></figure>
+ </div></section>
+ <section class="gut"><div class="wrap">
+  <div class="section-head"><h2 class="chrome drip-glow">Front and back</h2></div>
+  <div class="ev-feat">
+   <figure class="rv"><img loading="lazy" src="photos/events/winners-front.jpg" alt="Winners sweatshirt front"><figcaption>Front<small>WINNERS in red and checkered block letters with the KickHeadz script.</small></figcaption></figure>
+   <figure class="rv"><img loading="lazy" src="photos/events/winners-back.jpg" alt="Winners sweatshirt back with crossed checkered flags"><figcaption>Back<small>Crossed checkered flags with flames over a KickHeadz Apparel Company bar.</small></figcaption></figure>
+   <figure class="rv"><img loading="lazy" src="photos/events/winners-collection.jpg" alt="The KickHeadz Winners collection, premium crewneck, Cleveland edition 216"><figcaption>Cleveland edition 216<small>Premium crewneck sweatshirt, black.</small></figcaption></figure>
+  </div>
+  <div class="ev-facts"><div><b>Jan 15</b><span>Release day</span></div><div><b>Premium</b><span>Crewneck sweatshirt</span></div><div><b>216</b><span>Cleveland edition</span></div><div><b>@kickheadz</b><span>apparelcompany on Instagram</span></div></div>
+  <div class="ev-also rv"><img loading="lazy" src="photos/events/home-crue-hoodie.jpg" alt="Royal blue Home Crue Cleveland hoodie mockup, front and side"><div><span class="eyebrow">Also in the Cleveland lineup</span><h3>Home Crue hoodie</h3><p>Royal blue pullover with the Home Crue Cleveland chest patch and KickHeadz woven labels on the pocket and hood. Release date to be announced.</p>${notify('n-crue','Notify me')}</div></div>
+ </div></section></div>`},
+community(){return `<section class="page-head gut"><div class="wrap"><span class="eyebrow">Real ones, real fits</span><h1 class="chrome drip-glow">${words('Community',0)}</h1><p class="lede" style="max-width:60ch;color:#c9d3e6;font-size:18px;line-height:1.6;margin:16px 0 0">Customers and supporters repping KickHeadz around Cleveland. Tap a photo to see it big, or tap a tag to shop that piece.</p></div></section>
+ <section class="gut"><div class="wrap"><div class="fan-grid">${FANS.map((x,k)=>`<figure class="fan rv" data-k="${k}" tabindex="0" role="button" aria-label="Open photo: ${esc(x.c)}"><img loading="lazy" src="photos/${x.f}" alt="${esc(x.c)}"><figcaption>${tags(x)}</figcaption></figure>`).join('')}</div></div></section>
+ <section class="gut" id="share"><div class="wrap"><div class="section-head"><div><span class="eyebrow">Contributions</span><h2 class="chrome drip-glow">Show us your fit</h2></div></div>
+  <div class="up">
+   <label class="drop" id="drop"><input type="file" id="upfile" accept="image/*" aria-label="Choose a photo of you in KickHeadz"><div id="dropmsg"><div class="big">Drop your photo</div><p class="note">or tap to choose one · JPG, PNG or HEIC</p></div></label>
+   <form id="upform">
+    <div><label for="upname">Name or IG handle</label><input type="text" id="upname" placeholder="@yourhandle" autocomplete="nickname"></div>
+    <div><label for="upprod">What are you wearing?</label><select id="upprod">${PRODUCTS.map((p,k)=>`<option value="${k}">${p.t}</option>`).join('')}<option value="">Something else</option></select></div>
+    <label class="chk"><input type="checkbox" id="upok" required> This is my photo (or I have permission) and KickHeadz can post it on the site and socials.</label>
+    <button class="btn" id="upbtn">Send my photo</button>
+    <div class="heads" id="upnote"><b>Heads up:</b> photo uploads aren't connected yet, so nothing leaves your phone when you press send. Until they are, DM your fit to <b>@kickheadzapparelcompany</b> on Instagram.</div>
+   </form>
+  </div></div></section>`},
+product(i){const p=PRODUCTS[i]||PRODUCTS[0];
+ const opts=p.opts.map((o,k)=>`<fieldset><legend>${o[0]}</legend><div class="pills">${o[1].map((v,j)=>`<input type="radio" name="o${k}" id="o${k}-${j}" value="${esc(v)}" ${j===0?'checked':''}><label for="o${k}-${j}">${v}</label>`).join('')}</div></fieldset>`).join('');
+ return `<section class="gut"><div class="wrap pdp"><div><div class="modes" role="group" aria-label="How to view"><button type="button" data-m="model" aria-pressed="true"><span class="dot"></span>3D model</button><button type="button" data-m="card" aria-pressed="false">Spin card</button><button type="button" data-m="video" aria-pressed="false">Hype video</button></div><div class="stage s3d" id="stage" data-mode="model">
+  <div class="layer on" id="L-model"><div class="glshadow"></div><canvas class="gl" id="glc" aria-label="3D model of ${esc(p.t)}, drag to turn it"></canvas><div class="glmsg" id="glmsg">Loading 3D model…</div><span class="hint mvhint">↔ Drag the real 3D model · <b>360°</b></span></div>
+  <div class="layer photo" id="L-photo"><img id="photoimg" alt=""></div><div class="layer" id="L-video"><video id="hv" src="videos/kickheadz-${i}.mp4" muted loop playsinline preload="none" aria-label="Hype video for ${esc(p.t)}"></video></div>
+  <div class="scene" id="scene"><div class="spin" id="spin">
+  <div class="face front"><img id="mainimg" style="view-transition-name:shot" src="${imgUrl(p.img[0])}" alt="${esc(p.t)}, front"><div class="sheen"></div></div>
+  <div class="face back" id="backface"></div></div><div class="floor" id="floor"></div></div>
+  <div class="s3d-bar"><span class="hint">↔ Drag to spin · <b>360°</b></span><button class="flipbtn" id="flip" type="button">Flip</button></div>
+  ${soldOut(p)?'<span class="badge">Sold out</span>':''}</div>
+ ${p.img.length>1||fansFor(i).length?`<div class="thumbs">${p.img.map((f,k)=>`<button aria-pressed="${k===0}" data-f="${f}" aria-label="Photo ${k+1}"><img src="${imgUrl(f)}" alt=""></button>`).join('')}${fansFor(i).map(x=>`<button class="fanth" aria-pressed="false" data-fan="${x.f}" aria-label="Customer photo: ${esc(x.c)}"><img src="photos/${x.f}" alt=""></button>`).join('')}</div>`:''}</div>
+ <div class="info"><span class="eyebrow">KickHeadz apparel company</span><h1 class="chrome">${p.t}</h1><div class="price">${money(p.p)}</div>${p.d?`<p>${p.d}</p>`:''}${opts?`<div>${opts}</div>`:''}
+ <div><div class="note" style="margin-bottom:8px">Quantity</div><div class="qty"><button type="button" id="qm" aria-label="Less">−</button><input id="q" value="1" inputmode="numeric" aria-label="Quantity"><button type="button" id="qp" aria-label="More">+</button></div></div>
+ <div><a class="btn" id="buy" href="${liveUrl(p.h)}">Add to cart</a><p class="note" id="stock"></p></div></div></div></section>
+ ${fansFor(i).length?`<section class="gut worn"><div class="wrap"><div class="section-head"><div><span class="eyebrow">Real ones, real fits</span><h2 class="chrome drip-glow">Worn in the 216</h2></div><a href="#community">Community · Add yours →</a></div><div class="row">${fansFor(i).map(x=>`<button data-fan="${x.f}" aria-label="Open customer photo: ${esc(x.c)}"><img loading="lazy" src="photos/${x.f}" alt="${esc(x.c)}"></button>`).join('')}</div></div></section>`:''}
+ <section class="gut"><div class="wrap"><div class="section-head"><h2 class="chrome drip-glow">More drip</h2></div><div class="rail">${PRODUCTS.filter(x=>x!==p).slice(0,8).map(card).join('')}</div></div></section>`}
+};
+function tilt(root){root.querySelectorAll('.card').forEach(c=>{const t=c.querySelector('.tile');
+ c.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse')return;const r=t.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
+  t.style.transform=`rotateY(${(x-.5)*12}deg) rotateX(${(.5-y)*12}deg) translateY(-6px)`;t.style.setProperty('--mx',x*100+'%');t.style.setProperty('--my',y*100+'%')});
+ c.addEventListener('pointerleave',()=>t.style.transform='');
+ c.addEventListener('click',()=>{const im=c.querySelector('.tile img:not(.alt)');document.querySelectorAll('[style*="view-transition-name"]').forEach(x=>{if(x!==im&&x.id!=='mainimg')x.style.viewTransitionName=''});im.style.viewTransitionName='shot'})})}
+function wire(r,i){
+ if(r==='catalog'){const s=document.getElementById('sort'),g=document.getElementById('all');let filt='all';
+  const go=()=>{let l=[...PRODUCTS];if(filt==='sweat')l=l.filter(p=>p.p>20);if(filt==='tee')l=l.filter(p=>p.p<20);if(filt==='in')l=l.filter(p=>!soldOut(p));
+   const v=s.value;if(v==='az')l.sort((a,b)=>a.t.localeCompare(b.t));if(v==='lo')l.sort((a,b)=>a.p-b.p);if(v==='hi')l.sort((a,b)=>b.p-a.p);
+   const run=()=>{g.innerHTML=l.map(card).join('');document.getElementById('count').textContent=l.length+' products';tilt(g);
+    g.querySelectorAll('.card').forEach((c,k)=>c.animate([{opacity:0,transform:'translateY(30px)'},{opacity:1,transform:'none'}],{duration:500,delay:k*40,easing:'cubic-bezier(.2,.75,.15,1)',fill:'backwards'}))};run()};
+  s.onchange=go;document.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{filt=b.dataset.f;document.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed',x===b));go()});go();}
+ if(r==='contact'){document.getElementById('cform').onsubmit=e=>{e.preventDefault();e.target.innerHTML="<p class='full-row thanks chrome'>Thanks. We'll hit you back soon.</p>"}}
+ if(r==='product'){const p=PRODUCTS[i]||PRODUCTS[0];const q=document.getElementById('q');
+  document.getElementById('qm').onclick=()=>q.value=Math.max(1,q.value-1);document.getElementById('qp').onclick=()=>q.value=+q.value+1;
+  viewer3d(p,i);modes(i);document.querySelectorAll('.thumbs button').forEach(b=>b.onclick=()=>{if(b.dataset.fan){document.getElementById('photoimg').src='photos/'+b.dataset.fan;setMode('photo')}else{setMode('card');V3.set(b.dataset.f)}document.querySelectorAll('.thumbs button').forEach(x=>x.setAttribute('aria-pressed',x===b))});
+  document.querySelectorAll('.worn button').forEach(b=>b.onclick=()=>lightbox(FANS.find(x=>x.f===b.dataset.fan)));
+  const sel=()=>{const parts=p.opts.map((o,k)=>document.querySelector(`input[name=o${k}]:checked`).value);
+   const v=p.opts.length?p.v.find(x=>{const n=x.n.split(' / ');return parts.every(s=>n.includes(s))}):p.v[0];const ok=v&&v.a;const b=document.getElementById('buy');
+   b.textContent=ok?'Add to cart':'Sold out';b.classList.toggle('off',!ok);
+   document.getElementById('stock').textContent=ok?'Checkout happens on the live KickHeadz store.':'This option is sold out. Try another size or color.'};
+  document.querySelectorAll('.pills input').forEach(x=>x.onchange=sel);sel();}
+ if(r==='ice-cold'||r==='winners'){const e=r==='ice-cold'?EVENTS.ice:EVENTS.win,el=document.getElementById(r==='ice-cold'?'cd-ice':'cd-win');
+  const t=()=>{if(!document.body.contains(el))return clearInterval(iv);let d=Math.max(0,e.at-Date.now())/1000;const v=[d/86400|0,d%86400/3600|0,d%3600/60|0,d%60|0];
+   el.querySelectorAll('b').forEach((b,k)=>b.textContent=String(v[k]).padStart(2,'0'))};const iv=setInterval(t,1000);t();
+  document.querySelectorAll('.ev-notify').forEach(f=>f.onsubmit=ev=>{ev.preventDefault();f.innerHTML='<p class="note">You\'re on the list. We\'ll hit you up before the drop.</p>'})}
+ if(r==='community'){document.querySelectorAll('.fan').forEach(f=>{const o=e=>{if(e.target.closest('a'))return;lightbox(FANS[+f.dataset.k])};f.onclick=o;f.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();o(e)}}});
+  const inp=document.getElementById('upfile'),drop=document.getElementById('drop'),msg=document.getElementById('dropmsg');let url=null;
+  const show=file=>{if(!file||!/^image\//.test(file.type))return;if(url)URL.revokeObjectURL(url);url=URL.createObjectURL(file);drop.querySelector('img')?.remove();const im=new Image();im.src=url;im.alt='Your photo preview';drop.appendChild(im);msg.style.opacity=0};
+  inp.onchange=()=>show(inp.files[0]);
+  ['dragenter','dragover'].forEach(n=>drop.addEventListener(n,e=>{e.preventDefault();drop.classList.add('over')}));
+  ['dragleave','drop'].forEach(n=>drop.addEventListener(n,e=>{e.preventDefault();drop.classList.remove('over')}));
+  drop.addEventListener('drop',e=>{const f=e.dataTransfer.files[0];if(f){show(f)}});
+  document.getElementById('upform').onsubmit=e=>{e.preventDefault();const n=document.getElementById('upnote');
+   n.innerHTML=url?'<b>Preview only.</b> Your photo looks good, but uploads aren\'t connected yet, so it was not sent or saved. DM it to <b>@kickheadzapparelcompany</b> on Instagram and we\'ll add it.':'<b>Pick a photo first.</b> Then DM it to <b>@kickheadzapparelcompany</b> on Instagram while uploads are being set up.'}}
+ tilt(M);
+}
+function lightbox(x){if(!x)return;let lb=document.getElementById('lb');
+ if(!lb){lb=document.createElement('div');lb.id='lb';lb.className='lb';lb.setAttribute('role','dialog');lb.setAttribute('aria-modal','true');document.body.appendChild(lb);
+  lb.addEventListener('click',e=>{if(e.target===lb||e.target.closest('button')||e.target.closest('a'))lb.classList.remove('on')});addEventListener('keydown',e=>{if(e.key==='Escape')lb.classList.remove('on')})}
+ lb.innerHTML=`<button type="button" aria-label="Close">×</button><div style="text-align:center"><img src="photos/${x.f}" alt="${esc(x.c)}"><div class="cap">${tags(x)}</div><p class="note" style="margin-top:10px">${x.c}</p></div>`;
+ requestAnimationFrame(()=>lb.classList.add('on'))}
+
+
+// ---- WebGL garment viewer: loads m3/kh-N.json (fabric + print meshes) and the print images, all plain files on this site ----
+const GL3={};
+function b64(s,T){const bin=atob(s),u=new Uint8Array(bin.length);for(let k=0;k<bin.length;k++)u[k]=bin.charCodeAt(k);return new T(u.buffer)}
+async function viewGL(i){
+ const cv=document.getElementById('glc'),msg=document.getElementById('glmsg');if(!cv)return;
+ const fail=t=>{msg.textContent=t;msg.hidden=false};
+ const gl=cv.getContext('webgl',{antialias:true,alpha:true,premultipliedAlpha:false});if(!gl)return fail('3D not supported on this device');
+ let d;
+ try{const r=await fetch('m3/kh-'+i+'.json');if(!r.ok)throw 0;d=await r.json();
+  await Promise.all(d.meshes.filter(m=>m.tex).map(m=>new Promise((ok,no)=>{const im=new Image();im.onload=()=>{m.img=im;ok()};im.onerror=no;im.src='m3/'+m.tex})))}
+ catch(e){return fail('3D model could not load')}
+ if(!document.body.contains(cv))return;
+ const sh=(t,src)=>{const o=gl.createShader(t);gl.shaderSource(o,src);gl.compileShader(o);return o};
+ const pr=gl.createProgram();
+ gl.attachShader(pr,sh(gl.VERTEX_SHADER,`attribute vec3 p;attribute vec3 n;attribute vec2 u;uniform mat4 M;uniform vec2 F;uniform float S;varying vec3 vn;varying vec2 vu;varying vec3 vp;
+  void main(){vec4 w=M*vec4(p*S/32767.0,1.0);vp=w.xyz;vn=mat3(M)*(n/127.0);vu=u/65535.0;vec3 q=w.xyz-vec3(0.0,0.0,1.3);gl_Position=vec4(q.x*F.x,q.y*F.y,(q.z*10.1+2.0)/(-9.9),-q.z);}`));
+ gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,`precision mediump float;varying vec3 vn;varying vec2 vu;varying vec3 vp;uniform sampler2D t;uniform vec3 C;uniform float T;
+  void main(){vec3 n=normalize(vn);if(!gl_FrontFacing)n=-n;vec4 tx=T>0.5?texture2D(t,vu):vec4(C,1.0);if(tx.a<0.02)discard;
+   vec3 c=pow(tx.rgb,vec3(2.2));vec3 v=normalize(vec3(0.0,0.0,1.3)-vp);
+   vec3 l1=normalize(vec3(.55,.75,.9)),l2=normalize(vec3(-.8,.25,.35)),l3=normalize(vec3(0.,.4,-1.));
+   float k=.22+.95*max(dot(n,l1),0.)+.35*max(dot(n,l2),0.)+.3*max(dot(n,l3),0.);
+   float fres=pow(1.-max(dot(n,v),0.),2.5);float sp=pow(max(dot(n,normalize(l1+v)),0.),18.)*(T>0.5?.10:.04);
+   vec3 col=c*k+sp+fres*vec3(.06,.10,.22)*(T>0.5?.8:.45)+fres*c*(T>0.5?.3:.08);
+   gl_FragColor=vec4(pow(col,vec3(1.0/2.2)),tx.a);}`));
+ gl.linkProgram(pr);if(!gl.getProgramParameter(pr,gl.LINK_STATUS))return fail('3D not supported on this device');gl.useProgram(pr);
+ const big=gl.getExtension('OES_element_index_uint');
+ const L={p:gl.getAttribLocation(pr,'p'),n:gl.getAttribLocation(pr,'n'),u:gl.getAttribLocation(pr,'u')};
+ const mk=a=>{const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,a,gl.STATIC_DRAW);return b};
+ const parts=d.meshes.map(m=>{const o={p:mk(b64(m.p,Int16Array)),n:mk(b64(m.nr,Int8Array)),wide:m.n>=65535};
+  const I=o.wide?b64(m.i,Uint32Array):b64(m.i,Uint16Array);o.count=I.length;o.ib=gl.createBuffer();gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,o.ib);gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,I,gl.STATIC_DRAW);
+  if(m.tex){o.u=mk(b64(m.uv,Uint16Array));o.tx=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,o.tx);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true);
+   gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,m.img);
+   [gl.TEXTURE_WRAP_S,gl.TEXTURE_WRAP_T].forEach(w=>gl.texParameteri(gl.TEXTURE_2D,w,gl.CLAMP_TO_EDGE));gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR)}
+  o.color=m.color||[1,1,1];return o}).filter(o=>!o.wide||big);
+ gl.uniform1f(gl.getUniformLocation(pr,'S'),d.s);
+ const uM=gl.getUniformLocation(pr,'M'),uF=gl.getUniformLocation(pr,'F'),uC=gl.getUniformLocation(pr,'C'),uT=gl.getUniformLocation(pr,'T');
+ gl.enable(gl.DEPTH_TEST);gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);
+ msg.hidden=true;
+ const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ let yaw=-.5,pitch=.08,vel=0,drag=false,lx=0,ly=0,idle=0;
+ cv.onpointerdown=e=>{drag=true;lx=e.clientX;ly=e.clientY;vel=0;cv.setPointerCapture(e.pointerId)};
+ cv.onpointermove=e=>{if(!drag)return;const dx=e.clientX-lx;lx=e.clientX;yaw+=dx*.012;vel=dx*.012;pitch=Math.max(-.45,Math.min(.45,pitch+(e.clientY-ly)*.006));ly=e.clientY};
+ cv.onpointerup=cv.onpointercancel=()=>{drag=false;idle=performance.now()};
+ function draw(now){if(!document.body.contains(cv))return;
+  const w=cv.clientWidth,h=cv.clientHeight,dpr=Math.min(2,devicePixelRatio||1);
+  if(cv.width!==Math.round(w*dpr)||cv.height!==Math.round(h*dpr)){cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr)}
+  gl.viewport(0,0,cv.width,cv.height);gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
+  if(!drag){if(Math.abs(vel)>.0005){yaw+=vel;vel*=.94}else if(!reduce&&now-idle>1200&&document.getElementById('L-model').classList.contains('on'))yaw+=.008}
+  const cy=Math.cos(yaw),sy=Math.sin(yaw),cp=Math.cos(pitch),sp=Math.sin(pitch),bob=reduce?0:Math.sin(now/700)*.012;
+  gl.uniformMatrix4fv(uM,false,new Float32Array([cy,sp*sy,-cp*sy,0, 0,cp,sp,0, sy,-sp*cy,cp*cy,0, 0,bob,0,1]));
+  const a=w/h,f=1/Math.tan(.42),fx=a>=1?f/a:f,fy=a>=1?f:f*a;gl.uniform2f(uF,fx,fy);
+  for(const o of parts){
+   gl.bindBuffer(gl.ARRAY_BUFFER,o.p);gl.enableVertexAttribArray(L.p);gl.vertexAttribPointer(L.p,3,gl.SHORT,false,0,0);
+   gl.bindBuffer(gl.ARRAY_BUFFER,o.n);gl.enableVertexAttribArray(L.n);gl.vertexAttribPointer(L.n,3,gl.BYTE,false,0,0);
+   if(o.u){gl.bindBuffer(gl.ARRAY_BUFFER,o.u);gl.enableVertexAttribArray(L.u);gl.vertexAttribPointer(L.u,2,gl.UNSIGNED_SHORT,false,0,0);gl.bindTexture(gl.TEXTURE_2D,o.tx);gl.uniform1f(uT,1)}
+   else{gl.disableVertexAttribArray(L.u);gl.vertexAttrib2f(L.u,0,0);gl.uniform1f(uT,0);gl.uniform3fv(uC,o.color)}
+   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,o.ib);gl.drawElements(gl.TRIANGLES,o.count,o.wide?gl.UNSIGNED_INT:gl.UNSIGNED_SHORT,0)}
+  requestAnimationFrame(draw)}
+ requestAnimationFrame(draw)}
+function setMode(m){const st=document.getElementById('stage');if(!st)return;st.dataset.mode=m;
+ document.querySelectorAll('.modes button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.m===m));
+ document.getElementById('L-model').classList.toggle('on',m==='model');document.getElementById('L-photo').classList.toggle('on',m==='photo');document.getElementById('L-video').classList.toggle('on',m==='video');
+ const v=document.getElementById('hv');if(m==='video'){v.currentTime=0;v.play().catch(()=>{})}else v.pause()}
+function modes(i){viewGL(i);document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>setMode(b.dataset.m))}
+const V3={};
+const SPIN={"IMG_1831.jpg":{"f":"spin/IMG_1831-f.webp"},"IMG_2228.jpg":{"f":"spin/IMG_2228-f.webp"},"IMG_2070.jpg":{"f":"spin/IMG_2070-f.webp","b":"spin/IMG_2070-b.webp"},"IMG_2059.jpg":{"f":"spin/IMG_2059-f.webp","b":"spin/IMG_2059-b.webp"},"IMG_2180.jpg":{"f":"spin/IMG_2180-f.webp","b":"spin/IMG_2180-b.webp"},"IMG_2114.jpg":{"f":"spin/IMG_2114-f.webp"},"IMG_2088.jpg":{"f":"spin/IMG_2088-f.webp"},"IMG_2087.jpg":{"f":"spin/IMG_2087-f.webp"},"IMG_2089.jpg":{"f":"spin/IMG_2089-f.webp"},"Them_tuff_black_and_purple.jpg":{"f":"spin/Them_tuff_black_and_purple-f.webp","b":"spin/Them_tuff_black_and_purple-b.webp"},"Them_tuff_blue_and_white.jpg":{"f":"spin/Them_tuff_blue_and_white-f.webp","b":"spin/Them_tuff_blue_and_white-b.webp"},"Them_tuff_black_and_white.jpg":{"f":"spin/Them_tuff_black_and_white-f.webp","b":"spin/Them_tuff_black_and_white-b.webp"},"Press_Play.jpg":{"f":"spin/Press_Play-f.webp"},"Press_Play_black_purple.jpg":{"f":"spin/Press_Play_black_purple-f.webp"},"Press_Play_grey_purple.jpg":{"f":"spin/Press_Play_grey_purple-f.webp"},"Lionhearted.jpg":{"f":"spin/Lionhearted-f.webp","b":"spin/Lionhearted-b.webp"},"Product_of_KickHeadz_grey.jpg":{"f":"spin/Product_of_KickHeadz_grey-f.webp"},"Product_of_KickHeadz.jpg":{"f":"spin/Product_of_KickHeadz-f.webp"},"Sharkin_red.jpg":{"f":"spin/Sharkin_red-f.webp"},"Sharkin_black.jpg":{"f":"spin/Sharkin_black-f.webp"},"Kickheadz_wing_tee.jpg":{"f":"spin/Kickheadz_wing_tee-f.webp"},"KickHeadz_4_panel_sweatshirt.jpg":{"f":"spin/KickHeadz_4_panel_sweatshirt-f.webp"},"IMG_1564.jpg":{"f":"spin/IMG_1564-f.webp"},"8A1C05E9-AF3F-4A3A-AD63-99B0D97869F2.jpg":{"f":"spin/8A1C05E9-AF3F-4A3A-AD63-99B0D97869F2-f.webp"},"727A343D-E2BB-40E4-8B71-51ACB2E51406.jpg":{"f":"spin/727A343D-E2BB-40E4-8B71-51ACB2E51406-f.webp"},"FC0431B1-448A-4587-BAEC-E90684EBFFBF.jpg":{"f":"spin/FC0431B1-448A-4587-BAEC-E90684EBFFBF-f.webp"},"C48911D6-6D6B-4A29-9174-1B418F4379BA.jpg":{"f":"spin/C48911D6-6D6B-4A29-9174-1B418F4379BA-f.webp"},"KickHeadz_masked_up_sweatshirt_black.jpg":{"f":"spin/KickHeadz_masked_up_sweatshirt_black-f.webp"},"591D83A0-0AE6-45BB-B1BE-2910FB064FBE.jpg":{"f":"spin/591D83A0-0AE6-45BB-B1BE-2910FB064FBE-f.webp"},"KickHeadz_masked_up_sweater_grey.jpg":{"f":"spin/KickHeadz_masked_up_sweater_grey-f.webp"},"KickHeadz_masked_up_sweater.jpg":{"f":"spin/KickHeadz_masked_up_sweater-f.webp"},"2CD69095-A368-42D1-9825-F17467FD2764.jpg":{"f":"spin/2CD69095-A368-42D1-9825-F17467FD2764-f.webp"},"Kickheadz_fly_denim_sweatshirt_black.jpg":{"f":"spin/Kickheadz_fly_denim_sweatshirt_black-f.webp"},"Kickheadz_fly_denim_sweatshirt_blue.jpg":{"f":"spin/Kickheadz_fly_denim_sweatshirt_blue-f.webp"},"KickHeadz_fly_denim_sweatshirt_red.jpg":{"f":"spin/KickHeadz_fly_denim_sweatshirt_red-f.webp"},"Fly_denim_Kickheadz_grey.jpg":{"f":"spin/Fly_denim_Kickheadz_grey-f.webp"},"Black.jpg":{"f":"spin/Black-f.webp"},"Red.jpg":{"f":"spin/Red-f.webp"},"Blue.jpg":{"f":"spin/Blue-f.webp"},"Grey.jpg":{"f":"spin/Grey-f.webp"}};
+function viewer3d(p,i){
+ const spin=document.getElementById('spin'),scene=document.getElementById('scene'),front=document.getElementById('mainimg'),back=document.getElementById('backface'),floor=document.getElementById('floor');
+ if(!spin)return;const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const REST=-14,HOLD=2300,FLIP=750;let ang=REST,vel=0,drag=false,lastX=0,auto=!reduce,t0=performance.now(),idle=0,target=null,aT=0,aBase=REST,last=performance.now();
+ const ez=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+ const brand=`<div class="brandback"><span class="sub">KickHeadz apparel company</span><span class="big chrome">KickHeadz</span><span class="num">216</span><span class="sub" style="color:var(--chrome)">Born in Cleveland · Est. 2026</span></div>`;
+ V3.set=f=>{const k=f.split('?')[0],m=SPIN[k];const fr=m?m.f:imgUrl(f);const im=new Image();im.onload=()=>{
+   front.src=fr;front.classList.remove('half');
+   back.innerHTML=m&&m.b?`<img src="${m.b}" alt="${esc(p.t)}, back"><div class="sheen"></div>`:brand;
+   spin.animate([{transform:spin.style.transform+' scale(.85)',opacity:.3},{transform:spin.style.transform,opacity:1}],{duration:500,easing:'cubic-bezier(.2,.75,.15,1)'})};im.src=fr};
+ V3.set(p.img[0]);
+ document.getElementById('flip').onclick=()=>{auto=false;idle=performance.now();target=Math.round((ang-REST)/180)*180+REST+180};
+ scene.addEventListener('pointerdown',e=>{drag=true;auto=false;target=null;lastX=e.clientX;vel=0;scene.setPointerCapture(e.pointerId)});
+ scene.addEventListener('pointermove',e=>{if(!drag)return;const dx=e.clientX-lastX;lastX=e.clientX;ang+=dx*.6;vel=dx*.6});
+ const end=()=>{if(drag){drag=false;idle=performance.now()}};scene.addEventListener('pointerup',end);scene.addEventListener('pointercancel',end);
+ // auto motion: rest at a 3/4 angle on the front, quick eased flip, rest on the back, flip again
+ function frame(now){if(!document.body.contains(spin))return;const dt=Math.min(64,now-last);last=now;
+  if(!drag){if(target!==null){ang+=(target-ang)*.14;if(Math.abs(target-ang)<.3){ang=target;target=null}}
+   else if(Math.abs(vel)>.05){ang+=vel;vel*=.92;if(Math.abs(vel)<=.05)target=Math.round((ang-REST)/180)*180+REST}
+   else if(!reduce&&(auto||now-idle>2500)){if(!auto){auto=true;aT=0;aBase=Math.round((ang-REST)/180)*180+REST}
+    aT+=dt;const cyc=HOLD+FLIP,k=Math.floor(aT/cyc),ph=Math.max(0,(aT%cyc)-HOLD)/FLIP;ang=aBase+180*(k+ez(ph))}}
+  const bob=reduce?0:Math.sin((now-t0)/700)*8,tilt=reduce?0:Math.sin((now-t0)/1300)*4;
+  spin.style.transform=`translateY(${bob}px) rotateX(${tilt}deg) rotateY(${ang}deg)`;
+  const c=Math.cos(ang*Math.PI/180);floor.style.setProperty('--fs',(.55+.45*Math.abs(c)).toFixed(3));floor.style.setProperty('--fo',(.6+.4*Math.abs(c)-bob/40).toFixed(3));
+  spin.style.setProperty('--sx',(((ang%360)+360)%360/360*100).toFixed(1)+'%');
+  requestAnimationFrame(frame)}
+ requestAnimationFrame(frame);
+}
+let first=true;
+function render(){const h=location.hash.slice(1)||'home';let r=h,i=0;const m=h.match(/^product-(\d+)$/);if(m){r='product';i=+m[1]}
+ if(!views[r]){if(document.getElementById(h))return;r='home'}
+ M.innerHTML=views[r](i);wire(r,i);
+ document.querySelectorAll('#nav a').forEach(a=>a.toggleAttribute('aria-current',a.dataset.r===r||(a.dataset.r==='events'&&(r==='ice-cold'||r==='winners'))));document.getElementById('nav').classList.remove('open');
+ window.scrollTo({top:0,behavior:'instant'});}
+function route(){
+ const hh=location.hash.slice(1);if(hh&&!/^(home|catalog|contact|events|ice-cold|winners|community|product-\d+)$/.test(hh)&&document.getElementById(hh)){document.getElementById(hh).scrollIntoView({behavior:'smooth'});return}
+ if(first){first=false;render();return}
+ const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ if(document.startViewTransition&&!reduce){document.startViewTransition(render);return}
+ const w=document.querySelector('.iris');w.classList.remove('go');void w.offsetWidth;if(!reduce)w.classList.add('go');
+ setTimeout(()=>{render();M.classList.remove('enter');void M.offsetWidth;M.classList.add('enter')},reduce?0:330);
+}
+document.getElementById('menu').onclick=()=>document.getElementById('nav').classList.toggle('open');
+document.getElementById('sub').onsubmit=e=>{e.preventDefault();e.target.innerHTML='<p class="note">You\'re on the list.</p>'};
+const hdr=document.getElementById('hdr');addEventListener('scroll',()=>hdr.classList.toggle('solid',scrollY>40),{passive:true});
+
+addEventListener('pointerdown',e=>{const r=document.documentElement.style;r.setProperty('--cx',e.clientX+'px');r.setProperty('--cy',e.clientY+'px')},{passive:true});
+const glow=document.getElementById('glow');addEventListener('pointermove',e=>{if(e.pointerType==='mouse')glow.style.transform=`translate(${e.clientX}px,${e.clientY}px)`},{passive:true});
+const prog=document.getElementById('prog');const onScroll=()=>{const h=document.documentElement.scrollHeight-innerHeight;prog.style.setProperty('--p',h>0?scrollY/h:0)};addEventListener('scroll',onScroll,{passive:true});
+document.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse')return;const b=e.target.closest&&e.target.closest('.btn');document.querySelectorAll('.btn.mag').forEach(x=>{if(x!==b){x.style.setProperty('--mx','0px');x.style.setProperty('--my','0px');x.classList.remove('mag')}});
+ if(b){const r=b.getBoundingClientRect();b.classList.add('mag');b.style.setProperty('--mx',((e.clientX-r.left-r.width/2)*.25)+'px');b.style.setProperty('--my',((e.clientY-r.top-r.height/2)*.35)+'px')}},{passive:true});
+(function sparks(){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;let cv,ctx,W,H,P=[];
+ function size(){cv=document.getElementById('sparks');if(!cv)return false;const r=cv.getBoundingClientRect();W=cv.width=r.width*devicePixelRatio;H=cv.height=r.height*devicePixelRatio;ctx=cv.getContext('2d');return true}
+ const cols=['99,164,255','47,107,255','99,164,255','238,242,249','47,107,255','229,38,45'];
+ function spawn(){return{x:Math.random()*W,y:H+Math.random()*H*.3,r:(Math.random()*2+0.6)*devicePixelRatio,v:(Math.random()*.6+.25)*devicePixelRatio,dx:(Math.random()-.5)*.3,a:Math.random()*.6+.3,c:cols[Math.random()*cols.length|0]}}
+ function tick(){const c=document.getElementById('sparks');if(c){if(c!==cv||!ctx){if(!size()){requestAnimationFrame(tick);return}P=Array.from({length:70},spawn).map(p=>(p.y=Math.random()*H,p))}
+  ctx.clearRect(0,0,W,H);for(const p of P){p.y-=p.v;p.x+=p.dx;if(p.y<-10){Object.assign(p,spawn())}ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,7);ctx.fillStyle=`rgba(${p.c},${p.a})`;ctx.shadowBlur=12*devicePixelRatio;ctx.shadowColor=`rgba(${p.c},1)`;ctx.fill()}}else{cv=null}
+  requestAnimationFrame(tick)}
+ addEventListener('resize',()=>{cv=null});requestAnimationFrame(tick)})();
+addEventListener('hashchange',route);route();
+</script>
+
+<script>if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))</script>
+</body></html>
